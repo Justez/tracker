@@ -2,10 +2,14 @@ import React from 'react';
 import DefaultLayout from './layouts/default';
 
 class HelloMessage extends React.Component {
-  render() {
+    componentDidUpdate() {
+        console.log(this.props);
+    }
+
+    render() {
     return (
       <DefaultLayout title={this.props.title}>
-        <div>Hello {this.props.name}</div>
+        <div>Error</div>
       </DefaultLayout>
     );
   }

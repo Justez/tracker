@@ -1,0 +1,11 @@
+body {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../images/photo_ride.jpg");
+    background-attachment: fixed;
+    background-size: 100vw;
+    background-color: grey;
+    background-position: center;
+    padding: 2vh;
+    font: 2vw sans-serif;
+    color: white;
+}
+    
