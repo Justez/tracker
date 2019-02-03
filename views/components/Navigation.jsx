@@ -10,13 +10,10 @@ const Navigation = (props) =>
             <div className="menu-helper"><img alt="menu" src="/images/menu.png" /></div>
         </div> 
         <div className="links">
-            <ul className="menu">
-            <li>API</li>
-            <li>Sign up / Sign in</li>
-            <li>About tracker</li>
-            <li>
-                <img alt="git" src="/images/git.jpg" />
-            </li>
+            <ul className="menu active">
+                <li>TRACKER portal</li>
+                <li>About</li>
+                <li>API</li>
             </ul>
         </div>
     </div>

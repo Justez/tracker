@@ -1,14 +1,16 @@
 .nav {
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
     padding: 0 2vh 0 2vh;
+    position: fixed;
+    top: 0;
+    width: 100%;
     display: flex;
     flex-direction: row;
+    border-bottom: 1px solid #25b0fb;
 }
 
 .nav-line {
     display: flex;
-    flex-direction: row;
-    width: 60vw;
+    width: 60%;
 }
 
 .nav-line .menu-helper img { filter: invert(100%); }
@@ -21,28 +23,13 @@
     align-items: center;
 }
 
-.nav img {
-    width: 7vh;
-    margin-right: 1vh;
-}
+.nav img { width: 7vh; margin-right: 1vh; }
 
-.nav .links {
-    display: flex;
-    flex-direction: row; 
-}
-
-.nav .links .close {
-    padding: 1vh;
-    margin: 2vh;
-    height: 3vh;
-    width: 3vh;
-}
+.nav .links { display: flex; flex-direction: row; }
 
 .nav .links img { filter: invert(100%); }
 
 .nav .links .menu { font-size: 3vmin; }
-
-.nav .links .menu img { width: 3vh; }
 
 .nav .links ul { list-style-type: none; }
 
@@ -51,29 +38,39 @@
     font-weight: lighter;
 }
 
+.nav .links .menu li:hover {
+    font-weight: normal;
+    cursor: pointer;
+    border-bottom: 3px solid #25b0fb;
+}
+
 @media only screen and (max-width: 800px) {
     .nav {
         display: flex;
         flex-direction: column;
         padding: 2vh 0 0 4vw;
+        border-bottom: none;
+        background-color: #2e2e2e;
     }
     .nav-line { width: auto; }
     .nav .logo { 
-        font-size: 6vmin; 
+        margin-bottom: 3vh;
         width: 80vw;
     }
     .nav .links .menu { 
-        width: 100vw;
-        font-size: 5vmin; 
+        width: 60vw;
+        display: none;
+        align-items: center;
+        font-size: 4vmin; 
     }
-    .nav .links .menu img { width: 4vh; }
+    .nav .links .menu.active {
+        display: block;
+    }
 }
-@media only screen and (min-width: 801px) and (max-width: 1200px) {
-    .nav .links .menu li { display: inline; }
-    .nav-line { width: 55vw; }
-    .menu-helper { display: none; }
-}
-@media only screen and (min-width: 1201px) and (max-width: 1980px) {
+@media only screen and (min-width: 801px) {
     .nav .links .menu li { display: inline; }
     .menu-helper { display: none; }
 }
+
+@media only screen and (min-width: 801px) and (max-width: 1200px) {}
+@media only screen and (min-width: 1201px) and (max-width: 1980px) {}

@@ -1,0 +1,24 @@
+.index {
+    width: 100%;
+}
+
+.index .main {
+    height: 100vh;
+    background: linear-gradient(rgba(44, 40, 35, 0.7), rgba(44, 40, 35, 0.7)), url("../images/photo_ride.jpg");
+    background-color: grey;
+    background-repeat: no-repeat;
+    background-position: center;
+    overflow: hidden;
+}
+
+.index .main .content {
+    height: 80vh;
+    margin-top: 14vh;
+    letter-spacing: 3px;
+}
+
+.index .about {
+    font-size: 2vmin;
+    font-weight: lighter;
+    color: black;
+}
