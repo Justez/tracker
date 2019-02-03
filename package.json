@@ -6,11 +6,13 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "compression": "^1.7.3",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "express-react-views": "^0.11.0",
     "googleapis": "^37.1.0",
+    "helmet": "^3.15.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
     "react": "^16.7.0",
