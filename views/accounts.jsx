@@ -1,14 +1,14 @@
 import React from 'react';
 import DefaultLayout from './layouts/default';
 
-class Index extends React.Component {
+class NewMessage extends React.Component {
   render() {
     return (
       <DefaultLayout title={this.props.title}>
-        <div>Index</div>
+        <div>Register device</div>
       </DefaultLayout>
     );
   }
 }
 
-module.exports = Index;
+module.exports = NewMessage;

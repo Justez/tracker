@@ -1,4 +1,5 @@
 import React from 'react';
+import Navigation from '../components/Navigation';
 
 class DefaultLayout extends React.Component {
   render() {
@@ -7,8 +8,14 @@ class DefaultLayout extends React.Component {
         <head>
             <title>{this.props.title}</title>
             <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
+            <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css" />
         </head>
-        <body>{this.props.children}</body>
+        <body>
+          <Navigation />
+          <div className="container">
+            {this.props.children}
+          </div>
+        </body>
       </html>
     );
   }

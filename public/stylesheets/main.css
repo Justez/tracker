@@ -1,11 +1,17 @@
 body {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url("../images/photo_ride.jpg");
     background-attachment: fixed;
-    background-size: 100vw;
     background-color: grey;
     background-position: center;
-    padding: 2vh;
-    font: 2vw sans-serif;
+    font: 3vh Helvetica;
     color: white;
+    margin: 0;
 }
-    
+
+.container {
+    margin: 3vh 20vw 2vh 20vw;
+}
+
+@media only screen and (max-width: 1200px) {
+    .container { margin: 2vh 4vw 2vh 4vw; }
+}
