@@ -10,7 +10,7 @@ const Navigation = (props) =>
             <div className="menu-helper"><img alt="menu" src="/images/menu.png" /></div>
         </div> 
         <div className="links">
-            <ul className="menu active">
+            <ul className="menu ">
                 <li>TRACKER portal</li>
                 <li>About</li>
                 <li>API</li>

@@ -4,7 +4,7 @@
 
 .index .main {
     height: 100vh;
-    background: linear-gradient(rgba(44, 40, 35, 0.7), rgba(44, 40, 35, 0.7)), url("../images/photo_ride.jpg");
+    background: linear-gradient(rgba(40, 35, 35, 0.8), rgba(40, 35, 35, 0.8)), url("../images/swiss.jpg");
     background-color: grey;
     background-repeat: no-repeat;
     background-position: center;
@@ -15,10 +15,44 @@
     height: 80vh;
     margin-top: 14vh;
     letter-spacing: 3px;
+    text-align: center;
+}
+
+.index .mobile {
+    list-style-type: none;
 }
 
 .index .about {
     font-size: 2vmin;
     font-weight: lighter;
     color: black;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.index .about .text {
+    width: 30vw;
+}
+
+.index .about .photo img {
+    width: 30vw;
+    border-radius: 1vh;
+}
+
+@media only screen and (max-width: 1200px) {
+    .index .about {
+        flex-direction: column;
+    }        
+    .index .about .photo img {
+        display: none;
+    }
+    .index .about .text {
+        width: 60vw;
+        text-align: center; 
+    }
+}
+@media only screen and (min-width: 1201px) {
+    .index .mobile { display: none; }
 }

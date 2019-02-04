@@ -2,34 +2,19 @@ import React from 'react';
 
 const About = (props) => (
     <div className="about container">
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
-        <p>asdjklamsjkdnlasd</p>
+        <div className="text">
+            <p>asdjklamsjkdnlasd</p>
+            <p>asdjklamsjkdnlasd</p>
+            <p>asdjklamsjkdnlasd</p>
+            <p>asdjklamsjkdnlasd</p>
+            <p>asdjklamsjkdnlasd</p>
+            <p>asdjklamsjkdnlasd</p>
+            <p>asdjklamsjkdnlasd</p>
+        </div>
+        <div className="photo">
+            <img alt="journey" src="/images/photo_ride.jpg" />
+        </div>
+        
     </div>
 )
 
