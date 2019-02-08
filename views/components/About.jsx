@@ -3,21 +3,27 @@ import React from 'react';
 const About = (props) => (
     <div className="about container">
         <div className="title">
-            SECURE WHAT'S IMPORTANT TO YOU
+            PROTECT WHAT'S IMPORTANT TO YOU
         </div>
         <div className="content">
             <div className="description">
-                <h1>PROTECT YOUR VEHICLE</h1>
+                <h2>Simple to use, everyday and everywhere</h2>
                 <p>
                     Enjoy trips and vacations with our free to use tracking interface.
                     <br />
-                    Register and start using our services now.
+                    Let your family know that you are safe and sound.
+                    <br />
+                    View your trip details on map or export data in case of theft.
+                    <br />
+                    <a href="/register" >Register</a>
+                    {' '}
+                    and start using our services now.
                 </p>
                 <p>
-                    Or connect your free google drive account using our 
-                    {' '}
-                    <a href="https://www.github.com/justez/tracker" target="_blank" rel="noopener noreferrer">open-source integration</a>. 
-
+                    Additionally, you can deploy Tracker on your private home-ip server using our 
+                    <br />
+                    <a href="https://www.github.com/justez/tracker" target="_blank" rel="noopener noreferrer">open-source solution</a>
+                    .
                 </p>
                 <button>Read our API documentation</button>
             </div>

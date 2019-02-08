@@ -10,7 +10,7 @@ class Index extends React.Component {
           <DefaultLayout title={this.props.title}>
             <div className="content">
               <p>
-                TRAVEL THE WORLD. SAFE. FREE
+                TRAVEL THE WORLD. SAFE
               </p>
               <ul className="mobile">
                 <li>TRACKER portal</li>

@@ -3,7 +3,7 @@
 .about .title {
     color: black;
     padding: 6vh 1vw 10vh 1vw;
-    font-size: 2rem;
+    font-size: 5vh;
     background-color: white;
 }
 
@@ -15,7 +15,9 @@
     display: inline-flex;
 }
 
-.about button { background-color: #25b0fb; }
+.about button { margin-top: 2vh; }
+
+.about p { margin-bottom: 4vh; }
 
 .about .description { min-width: 40vw; }
 
