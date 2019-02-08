@@ -2,14 +2,13 @@ import React from 'react';
 import Navigation from '../components/Navigation';
 
 class DefaultLayout extends React.Component {
-  render() {
+   render() {
     return (
       <html>
         <head>
             <title>{this.props.title}</title>
-            <link rel="stylesheet" type="text/css" href="/stylesheets/main.css" />
-            <link rel="stylesheet" type="text/css" href="/stylesheets/nav.css" />
-            <link rel="stylesheet" type="text/css" href="/stylesheets/index.css" />
+            <link rel="stylesheet" type="text/css" href="/stylesheets/master.css" />
+            <link rel="icon" type="image/png" href="https://cdn.iconscout.com/icon/free/png-256/map-location-pin-security-shield-place-navigation-2-10955.png" />
         </head>
         <body>
           <Navigation />

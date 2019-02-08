@@ -1,0 +1,31 @@
+.about {
+    font-size: 2vmin;
+    font-weight: lighter;
+    color: black;
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+}
+
+.about .text {
+    width: 30vw;
+}
+
+.about .photo img {
+    width: 30vw;
+    border-radius: 1vh;
+}
+
+@media only screen and (max-width: 1200px) {
+    .about {
+        flex-direction: column;
+    }        
+    .about .photo img {
+        display: none;
+    }
+    .about .text {
+        width: 60vw;
+        text-align: center; 
+    }
+}

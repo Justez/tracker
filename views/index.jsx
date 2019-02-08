@@ -9,10 +9,10 @@ class Index extends React.Component {
         <div className="main">
           <DefaultLayout title={this.props.title}>
             <div className="content">
-			  <p>
-				TRAVEL THE WORLD. SAFE
-			  </p>
-			  <button>DISCOVER</button>
+              <p>
+                TRAVEL THE WORLD. SAFE. FREE
+              </p>
+              <button>DISCOVER</button>
               <ul className="mobile">
                 <li>TRACKER portal</li>
                 <li>About</li>

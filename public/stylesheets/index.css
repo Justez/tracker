@@ -6,16 +6,18 @@
     height: 100vh;
     background: linear-gradient(rgba(40, 35, 35, 0.7), rgba(40, 35, 35, 0.7)), url("../images/swiss.jpg");
     background-color: grey;
+    background-position: center; 
     background-repeat: no-repeat;
-    background-position: center;
     overflow: hidden;
+    background-size: 100vw auto;
 }
 
 .index .main .content {
     height: 80vh;
     margin-top: 14vh;
-    letter-spacing: 3px;
 }
+
+.index .main .content p, button { letter-spacing: 3px; }
 
 .index .main .content button {
 	margin-top: 1vh;
@@ -30,58 +32,26 @@
     background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
 }	
 
-.index .mobile {
-    list-style-type: none;
-}
+ul { padding: 0; }
 
 .index .mobile li {
 	margin-top: 2vh;
 	padding: 2vh 0 2vh 0;
-	width: 60vw;
+    border-radius: 1vh;
 }
 
 .index .mobile li:hover {
     background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
-	border-radius: 1vh;
 }
 
-.index .about {
-    font-size: 2vmin;
-    font-weight: lighter;
-    color: black;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-}
-
-.index .about .text {
-    width: 30vw;
-}
-
-.index .about .photo img {
-    width: 30vw;
-    border-radius: 1vh;
-}
-
-@media only screen and (max-width: 1200px) {
-    .index .about {
-        flex-direction: column;
-    }        
-    .index .about .photo img {
+@media only screen and (max-width: 800px) {
+    .index .main .content button {
         display: none;
     }
-    .index .about .text {
-        width: 60vw;
-        text-align: center; 
+    .index .main {
+        background-size: auto 140vh;
     }
-	.index .mobile {
-		margin-top: 20vh;
-	}
-	.index .main .content button {
-		display: none;
-	}
 }
-@media only screen and (min-width: 1201px) {
+@media only screen and (min-width: 801px) {
     .index .mobile { display: none; }
 }

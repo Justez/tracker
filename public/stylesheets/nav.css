@@ -31,8 +31,6 @@
 
 .nav .links .menu { font-size: 3vmin; }
 
-.nav .links ul { list-style-type: none; }
-
 .nav .links .menu li {
     padding: 1vh 1vw 1vh 1vw; 
     font-weight: lighter;
@@ -53,10 +51,11 @@
         background-color: #2e2e2e;
     }
     .nav-line { width: auto; }
-    .nav .logo { 
+    .nav .logo {
         margin-bottom: 3vh;
         width: 80vw;
     }
+    
     .nav .links .menu { 
         width: 60vw;
         display: none;
@@ -71,6 +70,3 @@
     .nav .links .menu li { display: inline; }
     .menu-helper { display: none; }
 }
-
-@media only screen and (min-width: 801px) and (max-width: 1200px) {}
-@media only screen and (min-width: 1201px) and (max-width: 1980px) {}
