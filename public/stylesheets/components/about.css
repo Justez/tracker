@@ -1,31 +1,26 @@
-.about {
-    font-size: 2vmin;
-    font-weight: lighter;
+.about { padding: 0; min-height: 80vh; }
+
+.about .title {
     color: black;
-    display: flex;
-    flex-direction: row;
-    align-content: center;
+    padding: 6vh 1vw 10vh 1vw;
+    font-size: 2rem;
+    background-color: white;
+}
+
+.about .content {
+    padding: 4vh 5vw 6vh 5vw;
     align-items: center;
+    font-size: 1rem;
+    font-weight: lighter;
+    display: inline-flex;
 }
 
-.about .text {
-    width: 30vw;
-}
+.about button { background-color: #25b0fb; }
 
-.about .photo img {
-    width: 30vw;
-    border-radius: 1vh;
-}
+.about .description { min-width: 40vw; }
 
-@media only screen and (max-width: 1200px) {
-    .about {
-        flex-direction: column;
-    }        
-    .about .photo img {
-        display: none;
-    }
-    .about .text {
-        width: 60vw;
-        text-align: center; 
-    }
+.about .photo { margin-left: 5vw; width: 40vw; }
+
+@media only screen and (max-width: 800px) {
+    .about .photo { display: none; }
 }

@@ -20,18 +20,32 @@ body {
     color: white;
     margin: 0;
     text-align: center;
+    background-color: #2e2e2e;
 }
 
 ul { list-style-type: none; }
 
 .container {
-    margin: 0 20vw 0 20vw;
-    min-height: 80vh;
+    padding: 0 20vw 0 20vw;
+    /* TODO: remove line: */
+    border: 2px solid rosybrown;
+    min-height: 70vh;
     padding: 2vh;
 }
 
 button {
-  border-radius: 1vh;
+  border-radius: 0.5vmin;
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 2vh 2vh 2vh 2vh;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+a {
+  color: #25b0fb;
 }
 
 @media only screen and (max-width: 1200px) {

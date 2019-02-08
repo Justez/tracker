@@ -1,6 +1,4 @@
-﻿.index {
-    width: 100%;
-}
+﻿.index { width: 100%; }
 
 .index .main {
     height: 100vh;
@@ -17,20 +15,7 @@
     margin-top: 14vh;
 }
 
-.index .main .content p, button { letter-spacing: 3px; }
-
-.index .main .content button {
-	margin-top: 1vh;
-	background: none;
-	color: white;
-	padding: 2vh;
-	border: 1px solid white;
-	width: 100Į;
-}
-
-.index .main .content button:hover {
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
-}	
+.index .main .content p { letter-spacing: 3px; }
 
 ul { padding: 0; }
 
@@ -45,12 +30,7 @@ ul { padding: 0; }
 }
 
 @media only screen and (max-width: 800px) {
-    .index .main .content button {
-        display: none;
-    }
-    .index .main {
-        background-size: auto 140vh;
-    }
+    .index .main { background-size: auto 140vh; }
 }
 @media only screen and (min-width: 801px) {
     .index .mobile { display: none; }

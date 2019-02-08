@@ -1,19 +1,11 @@
 .nav {
     padding: 0 2vh 0 2vh;
     position: fixed;
-    top: 0;
     width: 100%;
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid #25b0fb;
 }
-
-.nav-line {
-    display: flex;
-    width: 60%;
-}
-
-.nav-line .menu-helper img { filter: invert(100%); }
 
 .nav .logo {
     font-weight: lighter;
@@ -25,11 +17,15 @@
 
 .nav img { width: 7vh; margin-right: 1vh; }
 
-.nav .links { display: flex; flex-direction: row; }
+.nav-line { display: flex; }
+
+.nav-line .menu-helper img { filter: invert(100%); }
+
+.nav .links { text-align: end; width: 100%; }
 
 .nav .links img { filter: invert(100%); }
 
-.nav .links .menu { font-size: 3vmin; }
+.nav .links .menu { font-size: 3vmin; margin-right: 1vw; }
 
 .nav .links .menu li {
     padding: 1vh 1vw 1vh 1vw; 
@@ -50,22 +46,25 @@
         border-bottom: none;
         background-color: #2e2e2e;
     }
-    .nav-line { width: auto; }
+
     .nav .logo {
         margin-bottom: 3vh;
         width: 80vw;
     }
     
     .nav .links .menu { 
+        margin-left: 30vw;
         width: 60vw;
         display: none;
         align-items: center;
         font-size: 4vmin; 
     }
+
     .nav .links .menu.active {
         display: block;
     }
 }
+
 @media only screen and (min-width: 801px) {
     .nav .links .menu li { display: inline; }
     .menu-helper { display: none; }

@@ -12,7 +12,6 @@ class Index extends React.Component {
               <p>
                 TRAVEL THE WORLD. SAFE. FREE
               </p>
-              <button>DISCOVER</button>
               <ul className="mobile">
                 <li>TRACKER portal</li>
                 <li>About</li>
