@@ -14,10 +14,10 @@ const Navigation = (props) =>
         <div className="links">
             <ul className="menu">
             {/* <ul className="menu active"> */}
-                <li tabindex="0">TRACKER portal</li>
-                <li tabindex="0">API</li>
-                <li tabindex="0">About Tracker</li>
-                <li tabindex="0">Contact us</li>
+                <li tabIndex="0">TRACKER portal</li>
+                <li tabIndex="0">API</li>
+                <li tabIndex="0">About Tracker</li>
+                <li tabIndex="0">Contact us</li>
             </ul>
         </div>
     </div>
