@@ -17,21 +17,19 @@
 
 .index .main .content p { letter-spacing: 3px; }
 
-ul { padding: 0; }
+.index .mobile { display: none; }
 
-.index .mobile li {
-	margin-top: 2vh;
-	padding: 2vh 0 2vh 0;
-    border-radius: 1vh;
-}
-
-.index .mobile li:hover {
-    background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
-}
-
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1200px) {
     .index .main { background-size: auto 140vh; }
-}
-@media only screen and (min-width: 801px) {
-    .index .mobile { display: none; }
+    ul { padding: 0; }
+    .index .mobile { display: block; }
+    .index .mobile li {
+        margin-top: 2vh;
+        padding: 2vh 0 2vh 0;
+        border-radius: 1vh;
+    }
+
+    .index .mobile li:hover {
+        background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
+    }
 }

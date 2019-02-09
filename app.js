@@ -44,6 +44,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+module.exports = app;
+
 var debug = require('debug')('tracker:server');
 var http = require('http');
 
@@ -127,5 +129,3 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-module.exports = app;

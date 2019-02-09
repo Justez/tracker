@@ -10,7 +10,7 @@
 .about .content {
     padding: 4vh 5vw 6vh 5vw;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.8em;
     font-weight: lighter;
     display: inline-flex;
 }
@@ -23,6 +23,6 @@
 
 .about .photo { margin-left: 5vw; width: 40vw; }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 1200px) {
     .about .photo { display: none; }
 }
