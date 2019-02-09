@@ -47,6 +47,18 @@ button {
 
 a { color: #25b0fb; }
 
+a:focus, input:focus { 
+  outline: none; 
+  font-weight: normal;
+  cursor: pointer;
+  border-bottom: 3px solid #25b0fb;
+}
+
+button:focus {
+  outline: none;
+  font-weight: bold;
+}
+
 @media only screen and (max-width: 1200px) {
     .container { margin: 0 4vw 0 4vw; }
 }

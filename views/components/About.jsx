@@ -7,13 +7,13 @@ const About = (props) => (
         </div>
         <div className="content">
             <div className="description">
-                <h2>Simple to use, everyday and everywhere</h2>
+                <h2>Simple, everyday and everywhere</h2>
                 <p>
                     Enjoy trips and vacations with our free to use tracking interface.
                     <br />
                     Let your family know that you are safe and sound.
                     <br />
-                    View your trip details on map or export data in case of theft.
+                    View your trip details on map or export data in case of emergency.
                     <br />
                     <a href="/register" >Register</a>
                     {' '}

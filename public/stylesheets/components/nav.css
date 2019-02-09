@@ -15,6 +15,11 @@
     align-items: center;
 }
 
+.nav .logo:focus {
+    outline: none;
+    font-weight: bold;
+}
+
 .nav img { width: 7vh; margin-right: 1vh; }
 
 .nav-line { display: flex; }
@@ -32,7 +37,8 @@
     font-weight: lighter;
 }
 
-.nav .links .menu li:hover {
+.nav .links .menu li:hover, li:focus {
+    outline: none;
     font-weight: normal;
     cursor: pointer;
     border-bottom: 3px solid #25b0fb;

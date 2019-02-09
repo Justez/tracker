@@ -3,7 +3,7 @@ import React from 'react';
 const Navigation = (props) => 
     <div className="nav">
         <div className="nav-line">
-            <div className="logo">
+            <div className="logo" tabIndex="0">
                 <img src="/images/mappoint.png" />
                 <div>Tracker</div>
             </div>
@@ -14,10 +14,10 @@ const Navigation = (props) =>
         <div className="links">
             <ul className="menu">
             {/* <ul className="menu active"> */}
-                <li>TRACKER portal</li>
-                <li>API</li>
-                <li>About Tracker</li>
-                <li>Contact us</li>
+                <li tabindex="0">TRACKER portal</li>
+                <li tabindex="0">API</li>
+                <li tabindex="0">About Tracker</li>
+                <li tabindex="0">Contact us</li>
             </ul>
         </div>
     </div>
