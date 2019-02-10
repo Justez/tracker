@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var authenticate = require('../src/javascript/auth/authenticate')
+var authenticate = require('../utils/registerApp')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

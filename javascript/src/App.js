@@ -1,6 +1,6 @@
 import React from 'react';
-import DefaultLayout from './layouts/default';
-import About from './components/About';
+import DefaultLayout from './views/layouts/default';
+import About from './views/components/About';
 
 class App extends React.Component {
   render() {
