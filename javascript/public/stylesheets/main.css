@@ -26,7 +26,6 @@ body {
 ul { list-style-type: none; }
 
 .container {
-    padding: 2vh 20vw 0 20vw;
     /* TODO: remove line: */
     border: 2px solid rosybrown;
     min-height: 70vh;

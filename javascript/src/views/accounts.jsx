@@ -1,7 +1,7 @@
 import React from 'react';
 import DefaultLayout from './layouts/default';
 
-class NewMessage extends React.Component {
+class AccountView extends React.Component {
   render() {
     return (
       <DefaultLayout title={this.props.title}>
@@ -11,4 +11,4 @@ class NewMessage extends React.Component {
   }
 }
 
-module.exports = NewMessage;
+export default AccountView;

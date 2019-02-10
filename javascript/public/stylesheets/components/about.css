@@ -19,9 +19,9 @@
 
 .about p { margin-bottom: 4vh; }
 
-.about .description { min-width: 40vw; }
+.about .description { min-width: 30vw; }
 
-.about .photo { margin-left: 5vw; width: 40vw; }
+.about .photo { margin-left: 5vw; width: 30vw; margin-right: 10vw; }
 
 @media only screen and (max-width: 1200px) {
     .about .photo { display: none; }

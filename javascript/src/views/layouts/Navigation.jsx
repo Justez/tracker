@@ -9,7 +9,7 @@ const Navigation = () =>
     <div className="nav">
         <div className="nav-line">
             <div className="logo" tabIndex="0">
-                <img src="/images/mappoint.png" />
+                <img alt="logo" src="/images/mappoint.png" />
                 <div>Tracker</div>
             </div>
             <div className="menu-helper" onClick={addClass}>

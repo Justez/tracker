@@ -1,26 +1,21 @@
 import React from 'react';
-import DefaultLayout from './views/layouts/default';
-import About from './views/components/About';
+import Main from './views/main';
+import Footer from './views/layouts/Footer';
+
+// todo: router between main page, portal if signed in, 
 
 class App extends React.Component {
+  componentDidMount() {
+    fetch('/register')
+      .then(res => res.json())
+      .then(users => console.log(users));
+  }
+
   render() {
     return (
-      <div className="index">
-        <div className="main">
-          <DefaultLayout title={this.props.title}>
-            <div className="content">
-              <p>
-                TRAVEL THE WORLD. SAFE
-              </p>
-              <ul className="mobile">
-                <li>TRACKER portal</li>
-                <li>About Tracker</li>
-                <li>API</li>
-              </ul>
-            </div>
-          </DefaultLayout>
-        </div>
-        <About />
+      <div>
+        <Main />
+        <Footer />
       </div>
     );
   }

@@ -1,0 +1,14 @@
+.footer {
+    display: flex;
+    flex-direction: row;
+    min-height: 10vh;
+    width: 100%;
+}
+
+.footer-column {
+    width: 30vw;
+}
+
+@media only screen and (max-width: 1200px) {
+    .footer { display: none; }
+}
