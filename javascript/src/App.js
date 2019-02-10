@@ -2,7 +2,7 @@ import React from 'react';
 import DefaultLayout from './layouts/default';
 import About from './components/About';
 
-class Index extends React.Component {
+class App extends React.Component {
   render() {
     return (
       <div className="index">
@@ -26,4 +26,4 @@ class Index extends React.Component {
   }
 }
 
-module.exports = Index;
+export default App;
