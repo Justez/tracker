@@ -5,7 +5,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className="index">
-        <div className="main">
+        <div className="main container">
           <div className="content">
             <p>
               TRAVEL THE WORLD. SAFE

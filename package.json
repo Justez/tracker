@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "concurrently --kill-others \"node app.js\" \"cd javascript && npm start\""
   },
   "dependencies": {
     "compression": "^1.7.3",
@@ -15,7 +15,10 @@
     "helmet": "^3.15.0",
     "http-errors": "~1.6.2",
     "morgan": "~1.9.0",
-    "react": "^16.7.0"
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1"
   },
-  "devDependencies": {}
+  "devDependencies": {  
+    "concurrently": "^4.1.0"
+  }
 }

@@ -10,13 +10,13 @@
 }
 
 .footer ul {
-    width: 100%;
+    width: 90%;
     display: flex;
 }
 
 .footer li {
     text-align: center;
-    width: 22.5%;
+    width: 25%;
 }
 
 @media only screen and (max-width: 800px) {
