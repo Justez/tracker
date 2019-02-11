@@ -19,17 +19,19 @@
 
 .index .mobile { display: none; }
 
-@media only screen and (max-width: 1200px) {
-    .index .main { background-size: auto 140vh; }
-    ul { padding: 0; }
+@media only screen and (max-width: 800px) {
     .index .mobile { display: block; }
     .index .mobile li {
         margin-top: 2vh;
         padding: 2vh 0 2vh 0;
         border-radius: 1vh;
     }
-
     .index .mobile li:hover {
         background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3));
     }
+}
+
+@media only screen and (max-width: 1200px) {
+    .index .main { background-size: auto 140vh; }
+    ul { padding: 0; }
 }

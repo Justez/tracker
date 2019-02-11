@@ -3,12 +3,22 @@
     flex-direction: row;
     min-height: 10vh;
     width: 100%;
+    align-items: center;
+    text-align: center;
+    margin: 0 5% 0 5%;     
+    font-size: 0.7em;
 }
 
-.footer-column {
-    width: 30vw;
+.footer ul {
+    width: 100%;
+    display: flex;
 }
 
-@media only screen and (max-width: 1200px) {
+.footer li {
+    text-align: center;
+    width: 22.5%;
+}
+
+@media only screen and (max-width: 800px) {
     .footer { display: none; }
 }
