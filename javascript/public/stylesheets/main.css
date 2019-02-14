@@ -32,7 +32,7 @@ ul { list-style-type: none; }
 .container {
     /* TODO: remove line: */
     border: 2px solid rosybrown;
-    min-height: 70vh;
+    min-height: 90vh;
 }
 
 button {
