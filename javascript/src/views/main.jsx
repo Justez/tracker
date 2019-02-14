@@ -3,6 +3,30 @@ import { toApi } from '../utils/routes/navigators'
 import { registerPath, sourcePath } from '../utils/routes/paths'
 
 class Main extends React.Component {
+  componentDidMount() {
+    // const width = document.getElementById('root').clientWidth;
+    document.getElementsByClassName('nav')[0].classList.remove("dark")
+    
+    // if (width > 1000) {
+      this.addScrollListener(150);
+    // } else {
+      this.addScrollListener(500, 'scroll-up', 'active');
+    // }
+  }
+
+  addScrollListener = (boundary = 100, className = "nav", classChange = "dark") => {
+    document.addEventListener('scroll', () => {
+      if (boundary > document.getElementById('description').getBoundingClientRect().top) {
+        document.getElementsByClassName(className)[0].classList.add(classChange)
+      } else {
+        document.getElementsByClassName(className)[0].classList.remove(classChange)
+      }
+    })
+  }
+
+  scrollToDescription = () => document.getElementsByClassName("description")[0].scrollIntoView();
+  scrollToTop = () => document.getElementsByClassName("index")[0].scrollIntoView();
+  
   render() {
     return (
       <div className="index">
@@ -12,13 +36,11 @@ class Main extends React.Component {
               TRAVEL THE WORLD. SAFE
             </p>
             <ul className="mobile">
-              <li>TRACKER portal</li>
-              <li>About Tracker</li>
-              <li>API</li>
+              <li onClick={this.scrollToDescription} >DISCOVER</li>
             </ul>
           </div>
         </div>
-        <div className="description container">
+        <div className="description container" id="description">
           <div className="title">
               PROTECT WHAT'S IMPORTANT TO YOU
           </div>
@@ -49,6 +71,14 @@ class Main extends React.Component {
             </div>
           </div>
         </div>
+        <button 
+          className="scroll-up"
+          onClick={this.scrollToTop}
+          onKeyPress={this.scrollToTop}
+          title="Go to top" 
+        >
+          Up
+        </button> 
       </div>
     );
   }

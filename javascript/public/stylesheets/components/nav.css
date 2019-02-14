@@ -7,6 +7,11 @@
     border-bottom: 1px solid #25b0fb;
 }
 
+.nav.dark {
+    background-color: #2e2e2e;
+    border-bottom: none;
+}
+
 .nav .logo {
     font-weight: lighter;
     display: flex;

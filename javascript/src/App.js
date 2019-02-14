@@ -12,6 +12,9 @@ class App extends React.Component {
     fetch('/register')
       .then(res => res.json())
       .then(users => console.log(users));
+    
+    const main = document.getElementsByTagName('main')[0];
+    main.addEventListener('click', () => document.getElementsByClassName('menu')[0].classList.remove("active"));
   }
 
   view = () => {
@@ -35,9 +38,6 @@ class App extends React.Component {
         <Navigation />
         {this.view()}
         <Footer />
-        {process.env.NODE_ENV === 'development' && 
-          <small>You are running this application in <b>{process.env.NODE_ENV}</b> mode.</small>
-        }
       </div>
     );
   }

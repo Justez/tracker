@@ -9,7 +9,7 @@ const modifyClass = (e) => {
 }
 
 const Navigation = () => 
-    <div className="nav">
+    <div className="nav dark">
         <div className="nav-line">
             <div className="logo" tabIndex="0" onClick={navigate.toHome} onKeyPress={navigate.toHome}>
                 <img alt="logo" src="/images/mappoint.png" />

@@ -15,6 +15,8 @@
     margin-top: 14vh;
 }
 
+.index .scroll-up { display: none; }
+
 .index .main .content p { letter-spacing: 3px; }
 
 .index .mobile { display: none; }
@@ -29,23 +31,33 @@
 }
 
 .index .description .content {
-    padding: 4vh 5vw 6vh 5vw;
+    padding: 4vh 2vw 6vh 5vw;
     align-items: center;
     font-size: 0.8em;
+    overflow: hidden;
     font-weight: lighter;
     display: inline-flex;
 }
 
 .index .description p { margin-bottom: 6vh; }
 
-.index .description .photo { margin-left: 5vw; min-width: 25vw; }
+.index .description .photo { 
+    margin-left: 5vw; 
+    min-width: 25vw; 
+    overflow: hidden; 
+}
 
 @media only screen and (max-width: 800px) {
-    .index .mobile { display: block; }
+    .index .mobile { 
+        display: inline-flex;
+        margin-top: 20vh; 
+    }
     .index .mobile li {
+        background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
         border: none;
         margin-top: 2vh;
         padding: 2vh 0 2vh 0;
+        width: 50vw;
         border-radius: 1vh;
     }
     .index .mobile li:hover {
@@ -56,5 +68,23 @@
 @media only screen and (max-width: 1200px) {
     .index .description .photo { display: none; }
     .index .main { background-size: auto 140vh; }
+
     ul { padding: 0; }
+
+    .index .scroll-up.active:focus { outline: none; }
+
+    .index .scroll-up.active {
+        border-radius: 5vh;
+        padding: 0;
+        height: 10vh;
+        width: 10vh;
+        font-size: 0.8em;
+        display: block;
+        position: fixed;
+        bottom: 4vh;
+        right: 5vh;
+        z-index: 99; 
+        cursor: pointer;
+        padding: 15px;
+    }
 }
