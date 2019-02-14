@@ -6,11 +6,10 @@ class Main extends React.Component {
   componentDidMount() {
     // const width = document.getElementById('root').clientWidth;
     document.getElementsByClassName('nav')[0].classList.remove("dark")
-    
     // if (width > 1000) {
       this.addScrollListener(150);
     // } else {
-      this.addScrollListener(500, 'scroll-up', 'active');
+      this.addScrollListener(400, 'scroll-up', 'active');
     // }
   }
 
@@ -36,7 +35,9 @@ class Main extends React.Component {
               TRAVEL THE WORLD. SAFE
             </p>
             <ul className="mobile">
-              <li onClick={this.scrollToDescription} >DISCOVER</li>
+              <li onClick={this.scrollToDescription}>
+                DISCOVER
+              </li>
             </ul>
           </div>
         </div>
@@ -50,7 +51,7 @@ class Main extends React.Component {
               <p>
                 Enjoy trips and vacations with our free to use tracking interface.
                 <br />
-                Let your family know that you are safe and sound.
+                Let your family know you are safe and sound.
                 <br />
                 View your trip details on map or export data in case of emergency.
                 <br />
@@ -59,7 +60,7 @@ class Main extends React.Component {
                 and start using our services now.
               </p>
               <p>
-                Additionally, you can deploy Tracker on your private home-ip server using our 
+                Additionally, you can deploy Tracker on your private home server using our 
                 <br />
                 <a href={sourcePath} target="_blank" rel="noopener noreferrer">open-source solution</a>
                 .

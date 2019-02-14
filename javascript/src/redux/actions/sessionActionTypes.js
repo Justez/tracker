@@ -1,0 +1,4 @@
+export const START_SESSION = 'START_SESSION';
+export const STOP_SESSION = 'STOP_SESSION';
+export const ADD_SESSION_ID = 'ADD_SESSION_ID';
+export const SET_SESSION_EXPIRY = 'SET_SESSION_EXPIRY';
