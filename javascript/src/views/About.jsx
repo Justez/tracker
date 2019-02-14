@@ -6,7 +6,7 @@ const About = (props) => (
             PROTECT WHAT'S IMPORTANT TO YOU
         </div>
         <div className="content">
-            <div className="description">
+            <div className="details">
                 <h2>Simple, everyday and everywhere</h2>
                 <p>
                     Enjoy trips and vacations with our free to use tracking interface.

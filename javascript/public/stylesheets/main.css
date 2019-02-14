@@ -65,5 +65,5 @@ button:focus {
 }
 
 @media only screen and (max-width: 1200px) {
-    .container { margin: 0 4vw 0 4vw; }
+    .container { padding: 0 4vw 0 4vw; }
 }

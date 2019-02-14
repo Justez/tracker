@@ -1,10 +1,7 @@
-.about { padding: 0; min-height: 80vh; }
-
 .about .title {
-    color: black;
     padding: 6vh 1vw 6vh 1vw;
     font-size: 5vh;
-    background-color: white;
+    padding-top: 14vh;
 }
 
 .about .content {
@@ -19,7 +16,7 @@
 
 .about p { margin-bottom: 4vh; }
 
-.about .description { min-width: 30vw; }
+.about .about { min-width: 30vw; }
 
 .about .photo { margin-left: 5vw; width: 30vw; margin-right: 10vw; }
 

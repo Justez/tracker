@@ -5,11 +5,11 @@
     width: 100%;
     align-items: center;
     text-align: center;
-    margin: 0 5% 0 5%;     
     font-size: 0.7em;
 }
 
 .footer ul {
+    margin: 0 5% 0 5%;     
     width: 90%;
     display: flex;
 }

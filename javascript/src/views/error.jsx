@@ -1,9 +1,13 @@
 import React from 'react';
 
 class ErrorMessage extends React.Component {
-    render() {
+  render() {
     return (
-      <div>Error</div>
+      <div className="container">
+        <p>
+          Error
+        </p>
+      </div>
     );
   }
 }

@@ -19,6 +19,27 @@
 
 .index .mobile { display: none; }
 
+.index .description { padding: 0; }
+
+.index .description .title {
+    color: black;
+    padding: 6vh 1vw 6vh 1vw;
+    font-size: 1.5em;
+    background-color: white;
+}
+
+.index .description .content {
+    padding: 4vh 5vw 6vh 5vw;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: lighter;
+    display: inline-flex;
+}
+
+.index .description p { margin-bottom: 6vh; }
+
+.index .description .photo { margin-left: 5vw; min-width: 25vw; }
+
 @media only screen and (max-width: 800px) {
     .index .mobile { display: block; }
     .index .mobile li {
@@ -32,6 +53,7 @@
 }
 
 @media only screen and (max-width: 1200px) {
+    .index .description .photo { display: none; }
     .index .main { background-size: auto 140vh; }
     ul { padding: 0; }
 }
