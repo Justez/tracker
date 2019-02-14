@@ -15,8 +15,9 @@
     align-items: center;
 }
 
-.nav .logo:focus {
+.nav .logo:focus, .logo:hover {
     outline: none;
+    cursor: pointer;
     font-weight: bold;
 }
 

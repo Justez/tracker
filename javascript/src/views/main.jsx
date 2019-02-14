@@ -1,4 +1,6 @@
 import React from 'react';
+import { toApi } from '../utils/routes/navigators'
+import { registerPath, sourcePath } from '../utils/routes/paths'
 
 class Main extends React.Component {
   render() {
@@ -30,17 +32,17 @@ class Main extends React.Component {
                 <br />
                 View your trip details on map or export data in case of emergency.
                 <br />
-                <a href="/register" >Register</a>
+                <a href={registerPath}>Register</a>
                 {' '}
                 and start using our services now.
               </p>
               <p>
                 Additionally, you can deploy Tracker on your private home-ip server using our 
                 <br />
-                <a href="https://www.github.com/justez/tracker" target="_blank" rel="noopener noreferrer">open-source solution</a>
+                <a href={sourcePath} target="_blank" rel="noopener noreferrer">open-source solution</a>
                 .
               </p>
-              <button>Read our API documentation</button>
+              <button onClick={toApi} onKeyPress={toApi}>Read our API documentation</button>
             </div>
             <div className="photo">
                 <img alt="journey" src="https://image.freepik.com/free-photo/car-travelling-by-sunny-road_1088-51.jpg" />

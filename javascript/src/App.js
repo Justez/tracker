@@ -22,6 +22,7 @@ class App extends React.Component {
           <Route path='/about' component={About}/>
           {/* <Route path='/api' component={Api}/> */}
           {/* <Route path='/account' component={Dashboard}/> */}
+          {/* <Route path='/contact-us' component={Contact}/> */}
           <Route component={Error}/>
         </Switch>
       </main>
