@@ -26,35 +26,39 @@ const SignInModal = (props) => {
         <form onSubmit={handleSubmit(submit)}>
             <p className="header">Login to Tracker portal:</p>
             <hr />            
-            <div className="content">
-                <Field
-                    component={InputField}
-                    label="Email:"
-                    name="email"
-                    type="email"
-                    placeholder="Email"
-                />
-                <Field
-                    component={InputField}
-                    label="Password:"
-                    name="password"
-                    type="password"
-                    placeholder="Password"
-                />
-                <button 
-                    disabled={invalid || pristine || submitting} 
-                    type="submit" 
-                >
-                    Search
-                </button>
-            </div>
-        </form>
+            {props.loading 
+                ? <div className="content loading">loading...</div>
+                : <div className="content">
+                    <Field
+                        component={InputField}
+                        label="Email:"
+                        name="email"
+                        type="email"
+                        placeholder="Email"
+                    />
+                    <Field
+                        component={InputField}
+                        label="Password:"
+                        name="password"
+                        type="password"
+                        placeholder="Password"
+                    />
+                    <button 
+                        disabled={invalid || pristine || submitting} 
+                        type="submit" 
+                    >
+                        Search
+                    </button>
+                </div>
+            }
+            </form>
     )
 }
 
-const mapStateToProps = ({ session: { id, active }}) => ({
+const mapStateToProps = ({ session: { id, active, loading }}) => ({
     active, 
     id,
+    loading,
 });
 
 
