@@ -5,6 +5,7 @@ import Error from './views/Error';
 import Navigation from './views/layouts/Navigation';
 import Dashboard from './views/Dashboard';
 import Footer from './views/layouts/Footer';
+import Register from './views/Register';
 import { Switch, Route } from 'react-router-dom'
 
 class App extends React.Component {
@@ -26,6 +27,7 @@ class App extends React.Component {
           <Route path='/about' component={About}/>
           {/* <Route path='/api' component={Api}/> */}
           <Route path='/account' component={Dashboard}/>
+          <Route path='/register' component={Register}/>
           {/* <Route path='/contact-us' component={Contact}/> */}
           <Route component={Error}/>
         </Switch>

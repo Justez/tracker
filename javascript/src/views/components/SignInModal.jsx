@@ -3,18 +3,18 @@ import {connect} from 'react-redux';
 import { startSessionAction } from '../../redux/actions/sessionActions';
 import { Field, reduxForm } from 'redux-form';
 
-const InputField = ({ input, label, type, meta: { error, touched }}) => (
+const InputField = ({ input, label, type, disabled, meta: { error, touched }}) => (
     <div className="form-item">
         <label>{label}</label>
         <div className="input-field">
-            <input {...input} placeholder={label} type={type} />
+            <input {...input} disabled={disabled} placeholder={label} type={type} />
             {error && touched && <small>{error}</small>}
         </div>
     </div>
 )
 
 const SignInModal = (props) => {
-    const { handleSubmit, pristine, invalid, submitting } = props;
+    const { handleSubmit, pristine, invalid, submitting, loading } = props;
     
     const submit = (vals) => {
         if (vals.email && vals.password) {
@@ -25,40 +25,44 @@ const SignInModal = (props) => {
     return (
         <form onSubmit={handleSubmit(submit)}>
             <p className="header">Login to Tracker portal:</p>
-            <hr />            
-            {props.loading 
-                ? <div className="content loading">loading...</div>
-                : <div className="content">
-                    <Field
-                        component={InputField}
-                        label="Email:"
-                        name="email"
-                        type="email"
-                        placeholder="Email"
-                    />
-                    <Field
-                        component={InputField}
-                        label="Password:"
-                        name="password"
-                        type="password"
-                        placeholder="Password"
-                    />
-                    <button 
-                        disabled={invalid || pristine || submitting} 
-                        type="submit" 
-                    >
-                        Search
-                    </button>
-                </div>
-            }
+            <hr />       
+            <div className="content">
+                {loading && <div className="loading">loading...</div>}
+                {props.warning && <div className="warning">{props.warning}</div>}
+                {props.error && <div className="error">{props.error}</div>}
+                <Field
+                    component={InputField}
+                    disabled={loading}
+                    label="Email:"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                />
+                <Field
+                    component={InputField}
+                    disabled={loading}
+                    label="Password:"
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                />
+                <button 
+                    disabled={invalid || pristine || submitting} 
+                    type="submit" 
+                >
+                    Search
+                </button>
+            </div>
             </form>
     )
 }
 
-const mapStateToProps = ({ session: { id, active, loading }}) => ({
+const mapStateToProps = ({ session: { id, active, loading, warning, error }}) => ({
     active, 
+    error,
     id,
     loading,
+    warning,
 });
 
 

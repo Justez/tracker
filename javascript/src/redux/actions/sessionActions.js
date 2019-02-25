@@ -19,13 +19,18 @@ export function startSessionAction(loginDetails) {
         return request.then(
             response => {
                 response.json().then((info) => {
-                    dispatch(receiveDetails(types.SET_SESSION_TOKEN, info.token));
-                    dispatch(receiveDetails(types.ADD_SESSION_USER_NAME, info.name));
-                    dispatch(receiveDetails(types.ADD_SESSION_USER_ID, info.id));
+                    dispatch(receiveDetails(types.ADD_SESSION_ID, info.id));
                     dispatch(receiveDetails(types.SET_SESSION_EXPIRY, info.expiry));
-                    dispatch(receiveDetails(types.SET_SESSION_STATUS, true));
+                    dispatch(receiveDetails(types.SET_USER_EMAIL, info.email));
+                    dispatch(receiveDetails(types.SET_SESSION_STATUS, info.status === 200));
                     dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
-                    // dispatch(navigate.toDashboard);
+                    info.warning && dispatch(receiveDetails(types.ADD_SESSION_WARNING, info.warning))
+                    info.error && dispatch(receiveDetails(types.ADD_SESSION_LOGIN_ERROR, info.error))
+                    if (info.status === 200) 
+                        dispatch(navigate.toDashboard);
+                    if (info.status === 404) {
+                        setTimeout(navigate.toRegister, 2000);
+                    }
                 })
             }, 
             err => {

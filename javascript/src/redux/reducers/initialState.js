@@ -3,9 +3,8 @@ export default {
         active: false,
         error: '',
         loading: false,
-        name: '',
+        email: '',
         expiry: '',
-        token: '',
         warning: '',
     }
 };

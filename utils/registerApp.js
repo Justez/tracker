@@ -26,8 +26,7 @@ function authenticate(callbackFunction) {
      */
     function authorize(credentials, callback) {
         const {client_secret, client_id, redirect_uris} = credentials.installed;
-        const oAuth2Client = new google.auth.OAuth2(
-            client_id, client_secret, redirect_uris[0]);
+        const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
     
       // Check if we have previously stored a token.
       fs.readFile(TOKEN_PATH, (err, token) => {
@@ -55,7 +54,6 @@ function authenticate(callbackFunction) {
           // Store the token to disk for later program executions
           fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
             if (err) console.error(err);
-            console.log('Token stored to', TOKEN_PATH);
           });
           callback(oAuth2Client);
         });

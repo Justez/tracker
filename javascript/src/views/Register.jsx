@@ -3,17 +3,15 @@ import {connect} from 'react-redux';
 import * as sessionActions from '../redux/actions/sessionActions';
 import {bindActionCreators} from 'redux';
 
-const Dashboard = (props) => (
-    <div className="dashboard container">
+const Register = (props) => (
+    <div className="register container">
         <div className="title">
             intro
         </div>
         <div className="content">
             <div className="details">
-                <h2>DASHBOARD</h2>
-                <p>
-                    {props.email}
-                </p>
+                <h2>REGISTER FORM</h2>
+                {props.email}
             </div>
         </div>
         
@@ -30,4 +28,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
