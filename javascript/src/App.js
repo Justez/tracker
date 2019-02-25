@@ -3,6 +3,7 @@ import Main from './views/Main';
 import About from './views/About';
 import Error from './views/Error';
 import Navigation from './views/layouts/Navigation';
+import Dashboard from './views/Dashboard';
 import Footer from './views/layouts/Footer';
 import { Switch, Route } from 'react-router-dom'
 
@@ -24,7 +25,7 @@ class App extends React.Component {
           <Route exact path='/' component={Main}/>
           <Route path='/about' component={About}/>
           {/* <Route path='/api' component={Api}/> */}
-          {/* <Route path='/account' component={Dashboard}/> */}
+          <Route path='/account' component={Dashboard}/>
           {/* <Route path='/contact-us' component={Contact}/> */}
           <Route component={Error}/>
         </Switch>

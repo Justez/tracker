@@ -20,8 +20,28 @@
     -ms-transform: translate(-50%,-50%);
     background-color: white;
     color: black;
-    border: 1px solid grey;
-    padding: 2vh 2vh 2vh 2vh;
+    border: 1px solid lightgray;
     min-width: 50vw;
     min-height: 50vh;
+}
+
+hr { border: 1px solid lightgray; }
+
+.sign-in-modal .header { padding-left: 2vh; }
+
+.sign-in-modal .content { padding: 0 2vh 2vh 2vh; }
+
+.form-item .input-field {
+    padding: 1vh 0 2vh 0;
+}
+
+.form-item .input-field input {
+    line-height: 4vmin;
+    padding-left: 1vmin;
+    width: 100%;
+}
+
+.form-item .input-field small {
+    font-size: 2vmin;
+    color: red;
 }

@@ -1,40 +1,74 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import * as sessionActions from '../../redux/actions/sessionActions';
-// import * as navigate from '../../utils/routes/navigators'
-// import * as pathName from '../../utils/routes/pathNames'
-// navigate.toDashboard
+import { startSessionAction } from '../../redux/actions/sessionActions';
+import { Field, reduxForm } from 'redux-form';
 
-const SignInModal = () => 
-    <div>
-        <form>
-            <p>
-                Login to Tracker Portal
-            </p>
-            <button>Sign In</button>
-            <button>Sign Up</button>
-            <div id="signin" class="option">
-                <p>signin form.</p>
-            </div>
+const InputField = ({ input, label, type, meta: { error, touched }}) => (
+    <div className="form-item">
+        <label>{label}</label>
+        <div className="input-field">
+            <input {...input} placeholder={label} type={type} />
+            {error && touched && <small>{error}</small>}
+        </div>
+    </div>
+)
 
-            <div id="signup" class="option" style={{ display: 'none' }}>
-                <p>signup form.</p>
+const SignInModal = (props) => {
+    const { handleSubmit, pristine, invalid, submitting } = props;
+    
+    const submit = (vals) => {
+        if (vals.email && vals.password) {
+            props.startSession(vals)
+        }
+    }
+
+    return (
+        <form onSubmit={handleSubmit(submit)}>
+            <p className="header">Login to Tracker portal:</p>
+            <hr />            
+            <div className="content">
+                <Field
+                    component={InputField}
+                    label="Email:"
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                />
+                <Field
+                    component={InputField}
+                    label="Password:"
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                />
+                <button 
+                    disabled={invalid || pristine || submitting} 
+                    type="submit" 
+                >
+                    Search
+                </button>
             </div>
         </form>
-    </div>
-
-function mapStateToProps({ session: { id, active }}) {
-    return { active, id };
-  }
-
-function mapDispatchToProps(dispatch) {
-    return {
-        session: bindActionCreators(sessionActions, dispatch)
-    };
+    )
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(SignInModal);
+const mapStateToProps = ({ session: { id, active }}) => ({
+    active, 
+    id,
+});
+
+
+const mapDispatchToProps = (dispatch) => ({
+    startSession: (val) => {
+        dispatch(startSessionAction(val))
+    }
+});
+
+const form = connect(mapStateToProps, mapDispatchToProps)(SignInModal);
+
+const validate = ({ email, password }) => ({
+    email: password && !email && 'Required!',
+    password: email && !password && 'Required!',
+})
+
+export default reduxForm({ form: 'signin', validate })(form);

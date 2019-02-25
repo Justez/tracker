@@ -1,24 +1,34 @@
 import * as types from './sessionActionTypes';
+import * as navigate from '../../utils/routes/navigators'
 
-// function url() {
-//   return 'www.url.com';
-// }
+export function receiveDetails(type, payload) {
+  return { type, payload };
+}
 
-// export function receiveStuff(json) {
-//   return {type: types.RECEIVE_STUFF, stuff: json.stuff};
-// }
+export function startSessionAction(loginDetails) {
+    return function action(dispatch) {
+        const request = fetch('/sessions/new', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Accept': 'application/json' }
+        })
 
-// export function fetchStuff() {
-//   return dispatch => {
-//     return fetch(url(), {
-//       method: 'GET',
-//       mode: 'cors',
-//       credentials: 'include',
-//       headers: {
-//         'Accept': 'application/json'
-//       }
-//     })
-//     .then(response => response.json())
-//     .then(json => dispatch(receiveStuff(json)));
-//   };
-// }
+        return request.then(
+            response => {
+                response.json().then((info) => {
+                    dispatch(receiveDetails(types.ADD_SESSION_TOKEN, info.token));
+                    dispatch(receiveDetails(types.ADD_SESSION_USER_NAME, info.name));
+                    dispatch(receiveDetails(types.SET_SESSION_EXPIRY, info.expiry));
+                    dispatch(receiveDetails(types.SET_SESSION_STATUS, true));
+                    dispatch(navigate.toDashboard);
+                })
+            }, 
+            err => dispatch(receiveDetails(types.ADD_SESSION_LOGIN_ERROR, err)),
+        )
+  }
+}
+
+export default {
+    startSessionAction,
+};

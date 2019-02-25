@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var accountsRouter = require('./routes/accounts');
 var registerRouter = require('./routes/register');
+var sessionsRouter = require('./routes/sessions');
 var compression = require('compression');
 var helmet = require('helmet');
 
@@ -23,8 +24,9 @@ app.use(cookieParser());
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/register', registerRouter);
-app.use('/accounts', accountsRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/accounts', accountsRouter);
+app.use('/api/sessions', sessionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
