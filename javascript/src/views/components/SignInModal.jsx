@@ -35,11 +35,11 @@ const Form = styled.form`
     }
 `;
 
-const InputField = ({ input, label, type, disabled, meta: { error, touched }}) => (
+const InputField = ({ input, label, type, disabled, placeholder, meta: { error, touched }}) => (
     <div className="form-item">
         <label>{label}</label>
         <InputDiv>
-            <Input {...input} disabled={disabled} placeholder={label} type={type} />
+            <Input {...input} disabled={disabled} placeholder={placeholder || label} type={type} />
             {error && touched && <Error>{error}</Error>}
         </InputDiv>
     </div>
@@ -59,7 +59,6 @@ const SignInModal = (props) => {
             <Header>Login to Tracker portal:</Header>
             <Hr />       
             <Content>
-                {loading && <div className="loading">loading...</div>}
                 {props.warning && <div className="warning">{props.warning}</div>}
                 {props.error && <div className="error">{props.error}</div>}
                 <Field
@@ -82,7 +81,10 @@ const SignInModal = (props) => {
                     disabled={invalid || pristine || submitting} 
                     type="submit" 
                 >
-                    Search
+                    {loading 
+                        ? 'Loading...'
+                        : 'Login'
+                    }
                 </button>
             </Content>
         </Form>
@@ -90,18 +92,11 @@ const SignInModal = (props) => {
 }
 
 const mapStateToProps = ({ session: { id, active, loading, warning, error }}) => ({
-    active, 
-    error,
-    id,
-    loading,
-    warning,
+    active, error, id, loading, warning,
 });
 
-
 const mapDispatchToProps = (dispatch) => ({
-    startSession: (val) => {
-        dispatch(startSessionAction(val))
-    }
+    startSession: (val) => dispatch(startSessionAction(val))
 });
 
 const form = connect(mapStateToProps, mapDispatchToProps)(SignInModal);

@@ -29,6 +29,8 @@ body {
 
 ul { list-style-type: none; }
 
+label { padding-bottom: 1vh; }
+
 .container {
     /* TODO: remove line: */
     border: 2px solid rosybrown;

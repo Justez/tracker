@@ -23,13 +23,18 @@ function startSessionAction(loginDetails) {
                     dispatch(receiveDetails(types.SET_SESSION_EXPIRY, info.expiry));
                     dispatch(receiveDetails(types.SET_USER_EMAIL, info.email));
                     dispatch(receiveDetails(types.SET_SESSION_STATUS, info.status === 200));
-                    dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
+                    info.status !== 404 && dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
                     info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
                     info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, info.error))
                     if (info.status === 200) 
                         dispatch(navigate.toDashboard);
                     if (info.status === 404) {
-                        setTimeout(navigate.toRegister, 2000);
+                        setTimeout(() => {
+                            dispatch(navigate.toRegister)
+                            info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, ''))
+                            info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, ''))
+                            dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
+                        }, 1500);
                     }
                 })
             }, 

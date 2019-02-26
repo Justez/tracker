@@ -4,7 +4,7 @@ import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
   form: formReducer,
-  session
+  session,
 });
 
 export default rootReducer;

@@ -17,4 +17,17 @@ router.get('/users', function(req, res, next) {
   }]);
 });
 
+router.post('/create', function(req, res, next) {
+  console.log(req.body);
+  
+  // todo parse users from drive
+  res.json([{
+  	id: 1,
+  	username: "samsepi0l"
+  }, {
+  	id: 2,
+  	username: "D0loresH4ze"
+  }]);
+});
+
 module.exports = router;
