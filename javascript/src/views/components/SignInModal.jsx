@@ -73,7 +73,7 @@ const SignInModal = (props) => {
                     component={InputField}
                     disabled={loading}
                     label="Password:"
-                    name="password"
+                    name="passwordLogIn"
                     type="password"
                     placeholder="Password"
                 />
@@ -101,9 +101,9 @@ const mapDispatchToProps = (dispatch) => ({
 
 const form = connect(mapStateToProps, mapDispatchToProps)(SignInModal);
 
-const validate = ({ email, password }) => ({
-    email: password && !email && 'Required!',
-    password: email && !password && 'Required!',
+const validate = ({ email, passwordLogIn }) => ({
+    email: passwordLogIn && !email && 'Required!',
+    passwordLogIn: email && !passwordLogIn && 'Required!',
 })
 
 export default reduxForm({ form: 'signin', validate })(form);

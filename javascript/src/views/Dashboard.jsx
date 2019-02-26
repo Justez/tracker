@@ -25,6 +25,15 @@ const Dashboard = (props) => {
         <div className="title">
             Redirecting back to home... 
         </div>
+        <div className="title">
+            Redirecting back to home... 
+        </div>
+        <div className="title">
+            Redirecting back to home... 
+        </div>
+        <div className="title">
+            Redirecting back to home... 
+        </div>
     </div> 
 }
 

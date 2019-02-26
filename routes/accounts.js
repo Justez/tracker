@@ -1,33 +1,95 @@
 var express = require('express');
 var router = express.Router();
+var authenticate = require('../utils/registerApp')
 
-/* GET new page. */
 router.get('/', function(req, res, next) {
-  res.render('accounts', { title: 'Tracker' });
 });
 
 router.get('/users', function(req, res, next) {
-  // todo parse users from drive
-  res.json([{
-  	id: 1,
-  	username: "samsepi0l"
-  }, {
-  	id: 2,
-  	username: "D0loresH4ze"
-  }]);
+  try {
+    authenticate(users);
+
+    async function users(auth) {
+      const email = req.body.email;
+      const users = await getUsers(auth);
+      res.json(users)
+      return;
+    }
+
+    function getUsers(auth) {
+      return new Promise(resolve => {
+        const { google } = require('googleapis');
+        const drive = google.drive({version: 'v3', auth});
+        drive.files.list({
+          pageSize: 10,
+          fields: 'nextPageToken, files(name)',
+          q: `mimeType = 'application/vnd.google-apps.folder'`
+        }, (err, res) => {
+          if (err) {
+            resolve('error: ' + JSON.parse(err));
+            return;
+          }
+          const files = res.data.files;
+          if (files.length) {
+            resolve(files.map((file) => file.name))
+          } else
+            resolve('no files found')
+        });
+      });
+    }
+  } catch (e) {
+    next(e) 
+  }
 });
 
 router.post('/create', function(req, res, next) {
-  console.log(req.body);
-  
-  // todo parse users from drive
-  res.json([{
-  	id: 1,
-  	username: "samsepi0l"
-  }, {
-  	id: 2,
-  	username: "D0loresH4ze"
-  }]);
+  try {
+    authenticate(users);
+
+    async function users(auth) {
+      const users = await getUsers(auth);
+      res.json(users)
+      return;
+    }
+
+    function getUsers(auth) {
+      return new Promise(resolve => {
+        const email = req.body.email;
+        const { google } = require('googleapis');
+        const drive = google.drive({version: 'v3', auth});
+        drive.files.list({
+          fields: 'files(id, name)', 
+          q: `name = '${email}' and mimeType = 'application/vnd.google-apps.folder'` 
+        },
+          (userErrors, userResults) => {
+            if (userErrors) {
+              resolve({ status: userErrors.response.status, error: userErrors.errors, url: userErrors.config.url });
+            } else {
+              if (userResults.data.files.length) {
+                const user = userResults.data.files[0];
+                resolve({ status: 300, error: 'Email is already taken!' });
+              } else {
+                drive.files.create({
+                  resource: {
+                    'name': email,
+                    'mimeType': 'application/vnd.google-apps.folder'
+                  },
+                  fields: 'id'
+                }, (newuserError, newuserResponse) => {
+                      if (newuserError) {
+                        resolve({ status: newuserError.newuserResponse.status, error: newuserError.errors[0], url: newuserError.config.url });
+                      } else
+                        resolve({ status: 200 });
+                });
+              }
+            }
+            return;
+          })
+      });
+    }
+  } catch (e) {
+    next(e) 
+  }
 });
 
 module.exports = router;

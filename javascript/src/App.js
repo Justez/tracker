@@ -14,9 +14,14 @@ import { Switch, Route } from 'react-router-dom'
 class App extends React.Component {
   componentDidMount() {
     // proxy test
-    fetch('/accounts/users')
+    fetch('/accounts/users', {
+      method: 'GET',
+      mode: 'cors',
+      credentials: 'include',
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    })
       .then(res => res.json())
-      .then(users => console.log(users));
+      .then(users => console.log(users))
     
     const main = document.getElementsByTagName('main')[0];
     main.addEventListener('click', () => document.getElementsByClassName('menu')[0].classList.remove("active"));

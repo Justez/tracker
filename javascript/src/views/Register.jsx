@@ -1,11 +1,17 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import styled from 'styled-components';
+import { dashboard } from '../utils/routes/pathNames'
 
 const Header = styled.h2`padding-left: 2vh;`;
 const Hr = styled.hr`border: 1px solid lightgray;`;
 const Content = styled.div`padding: 2vh 2vh 2vh 2vh;`;
 const InputDiv = styled.div`padding: 1vh 1vh 2vh 0;`;
+const Success = styled.div`
+    width: 100%;
+    min-height: 65vh;
+    padding: 10vh 0 2vh 0;
+`;
 const Input = styled.input`
     border: 1px solid grey;
     border-radius: 1vmin;
@@ -31,7 +37,6 @@ const Container = styled.div`
     color: black;
     padding: 10vh 0 2vh 0;
     font-size: 0.8em;
-    font-weight: lighter;
     display: inline-flex;
 `;
 
@@ -50,7 +55,12 @@ class Register extends React.Component {
     state = {
         error: '',
         loading: false,
+        status: undefined,
     };
+
+    openLogin = () => {
+        document.getElementById("sign-in-modal").style.display = "block";
+    }
 
     submit = (vals) => {
         if (vals.email && vals.password && vals.trackerID) {
@@ -63,79 +73,87 @@ class Register extends React.Component {
                 body: JSON.stringify(vals),
             })
                 .then((response) => response.json())
-                .then((info) => console.log(info))
+                .then((info) => {
+                    this.setState({ status: info.status, error: info.status !== 200 ? info.error : '' })
+                })
                 .catch(() => this.setState({ error: 'Unexpected error occured... We are checking on it! Please try again later.' }))
-                .finally(() => this.setState({ loading: false }))
+                .finally(() => {
+                    this.setState({ loading: false })
+                })
         }
     }   
 
     render() {
         const { handleSubmit, pristine, invalid, submitting } = this.props;
-        const { loading, error } = this.state;
-        
+        const { loading, error, status } = this.state;
         return (
             <Container>
-                <Form id="sign-in-modal-form" onSubmit={handleSubmit(this.submit)}>
-                    {error && <Error>{error}</Error>}
-                    <Header>Register your Tracker:</Header>
-                    <Hr />
-                    <Content>
-                        {this.props.warning && <div className="warning">{this.props.warning}</div>}
-                        {this.props.error && <div className="error">{this.props.error}</div>}
-                        <Field
-                            component={InputField}
-                            disabled={loading}
-                            label="Email:"
-                            name="email"
-                            type="email"
-                            placeholder="Email"
-                        />
-                        <Field
-                            component={InputField}
-                            disabled={loading}
-                            label="Unique tracking device ID:"
-                            name="trackerID"
-                            note="Savely secure this ID and do not disclose it to anyone. This may lead to conterfeit location history!"
-                            type="text"
-                            placeholder="Uninque tracking device ID:"
-                        />
-                        <Field
-                            component={InputField}
-                            disabled={loading}
-                            label="Password:"
-                            name="password"
-                            type="password"
-                            placeholder="Password"
-                        />
-                        <Field
-                            component={InputField}
-                            disabled={loading}
-                            label="Repeat Password:"
-                            name="passwordRepeat"
-                            type="password"
-                            placeholder="Password again:"
-                        />
-                        <button 
-                            disabled={invalid || pristine || submitting}
-                            type="submit" 
-                        >
-                            {loading ? 'Loading...' : 'Register'}
-                        </button>
-                    </Content>
-                </Form>
+                {status === 200
+                    ? <Success>
+                            You have successfully registered! You can now {' '}
+                            <button onClick={this.openLogin} onKeyPress={this.openLogin}>login to enter the {dashboard}</button>
+                            .
+                        </Success>
+                    : <Form id="sign-in-modal-form" onSubmit={handleSubmit(this.submit)}>
+                        <Header>Register your Tracker:</Header>
+                        <Hr />
+                        <Content>
+                            {status !==200 && error && <Error>{error}</Error>}
+                            <Field
+                                component={InputField}
+                                disabled={loading}
+                                label="Email:"
+                                name="email"
+                                type="email"
+                                placeholder="Email"
+                            />
+                            <Field
+                                component={InputField}
+                                disabled={loading}
+                                label="Unique tracking device ID:"
+                                name="trackerID"
+                                note="Savely secure this ID and do not disclose it to anyone. This may lead to conterfeit location history!"
+                                type="text"
+                                placeholder="Uninque tracking device ID:"
+                            />
+                            <Field
+                                component={InputField}
+                                disabled={loading}
+                                label="Password:"
+                                name="passwordRegister"
+                                type="password"
+                                placeholder="Password"
+                            />
+                            <Field
+                                component={InputField}
+                                disabled={loading}
+                                label="Repeat Password:"
+                                name="passwordRepeat"
+                                type="password"
+                                placeholder="Password again:"
+                            />
+                            <button 
+                                disabled={invalid || pristine || submitting}
+                                type="submit" 
+                            >
+                                {loading ? 'Loading...' : 'Register'}
+                            </button>
+                        </Content>
+                    </Form>
+                }
             </Container>
         )
     }
 }
 
-const validate = ({ email, password, passwordRepeat, trackerID }) => ({
+const validate = ({ email, passwordRegister, passwordRepeat, trackerID }) => ({
     email: !email && 'Required!',
     trackerID: !trackerID && 'Required!',
-    password: (!password && 'Required!') || (
-        password && passwordRepeat && (password !== passwordRepeat) && 'Passwords do not match!'
+    passwordRegister: (!passwordRegister && 'Required!') || (
+        passwordRegister && passwordRepeat && (passwordRegister !== passwordRepeat) && 'Passwords do not match!'
     ),
     passwordRepeat: (!passwordRepeat && 'Required!') || (
-        password && passwordRepeat && (password !== passwordRepeat) && 'Passwords do not match!'
+        passwordRegister && passwordRepeat && (passwordRegister !== passwordRepeat) && 'Passwords do not match!'
     ),
 })
 

@@ -10,7 +10,7 @@ router.post('/new', function(req, res, next) {
       const email = req.body.email;
       const search = await findFileWithEmail(auth, email);
       res.json(search)
-      return search;
+      return;
     }
 
     function findFileWithEmail(auth, email) {
