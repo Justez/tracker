@@ -1,6 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import * as paths from './utils/routes/paths'
 import Main from './views/Main';
 import About from './views/About';
+// import Api from './views/Api';
 import Error from './views/Error';
 import Navigation from './views/layouts/Navigation';
 import Dashboard from './views/Dashboard';
@@ -11,7 +14,7 @@ import { Switch, Route } from 'react-router-dom'
 class App extends React.Component {
   componentDidMount() {
     // proxy test
-    fetch('/register')
+    fetch('/accounts/users')
       .then(res => res.json())
       .then(users => console.log(users));
     
@@ -23,11 +26,11 @@ class App extends React.Component {
     return (
       <main>
         <Switch>
-          <Route exact path='/' component={Main}/>
-          <Route path='/about' component={About}/>
-          {/* <Route path='/api' component={Api}/> */}
-          <Route path='/account' component={Dashboard}/>
-          <Route path='/register' component={Register}/>
+          <Route exact path={paths.homePath} component={Main}/>
+          <Route path={paths.aboutPath} component={About}/>
+          {/* <Route path={paths.apiPath} component={Api}/> */}
+          <Route path={paths.dashboardPath} component={Dashboard}/>
+          <Route path={paths.registerPath} component={Register}/>
           {/* <Route path='/contact-us' component={Contact}/> */}
           <Route component={Error}/>
         </Switch>
@@ -46,4 +49,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps({ session: { email, active }}) {
+  return { email, active };
+}
+
+export default connect(mapStateToProps)(App);

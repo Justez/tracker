@@ -15,9 +15,9 @@ export default function session(state = initialState.session, action) {
       return newState('email');
     case sessionActions.ADD_SESSION_ID: 
       return newState('id');
-    case sessionActions.ADD_SESSION_LOGIN_ERROR:
+    case sessionActions.SET_SESSION_LOGIN_ERROR:
       return newState('error');
-    case sessionActions.ADD_SESSION_WARNING:
+    case sessionActions.SET_SESSION_WARNING:
       return newState('warning');
     default:
       return state;

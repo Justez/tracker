@@ -19,42 +19,42 @@ router.post('/new', function(req, res, next) {
         const drive = google.drive({version: 'v3', auth});
 
         drive.files.list({ fields: 'files(id, name)', q: `name contains '${email}' and mimeType = 'application/vnd.google-apps.folder'` }, 
-        (err, res) => {
-          if (err) {
-            resolve({ status: err.response.status, error: err.errors, url: err.config.url });
+        (listErrors, listResults) => {
+          if (listErrors) {
+            resolve({ status: listErrors.response.status, error: listErrors.errors, url: listErrors.config.url });
           } else {
-            if (res.data.files.length) {
-              const file = res.data.files[0];
+            if (listResults.data.files.length) {
+              const file = listResults.data.files[0];
               const data = { status: 200, email };
               const today = (new Date).toLocaleDateString();
 
-              drive.files.list({ 
+              drive.files.list({
                 fields: 'files(id, name)', 
                 q: `name contains 'session' and name contains '${today}' and '${file.id}' in parents` 
               },
-                (errors, results) => {
-                  if (errors) {
-                    resolve({ status: errors.response.status, error: errors.errors, url: errors.config.url });
+                (sessionErrors, sessionResults) => {
+                  if (sessionErrors) {
+                    resolve({ status: sessionErrors.response.status, error: sessionErrors.errors, url: sessionErrors.config.url });
                   } else {
-                    if (results.data.files.length) {
-                      const meta = results.data.files[0];
-                      resolve({ ...data, expiry: today, id: meta.id });
+                    if (sessionResults.data.files.length) {
+                      const session = sessionResults.data.files[0];
+                      resolve({ ...data, expiry: today, id: session.id });
                     } else {
-                      drive.files.create({ 
+                      drive.files.create({
                         resource: { 'name': `session ${today}.txt`, parents: [file.id] },  
                         folderId : file.id,
                         fields: 'id',
-                      }, (err, response) => {
-                          if (err) {
-                            resolve({ status: err.response.status, error: err.errors[0], url: err.config.url });
-                          }
-                          resolve({ ...data, expiry: today, id: response.data.id });
+                      }, (newSessionError, newSessionResponse) => {
+                          if (newSessionError) {
+                            resolve({ status: newSessionError.newSessionResponse.status, error: newSessionError.errors[0], url: newSessionError.config.url });
+                          } else
+                            resolve({ ...data, expiry: today, id: newSessionResponse.data.id });
                         })
                     }
                   }
                 });
-              } 
-              resolve({ status: 404, email, warning: "Please register to use our services. Redirecting..." });
+              } else
+                resolve({ status: 404, email, warning: "Please register to use our services. Redirecting..." });
           }
         });
       });

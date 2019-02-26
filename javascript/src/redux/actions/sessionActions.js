@@ -1,11 +1,11 @@
 import * as types from './sessionActionTypes';
 import * as navigate from '../../utils/routes/navigators'
 
-export function receiveDetails(type, payload) {
+function receiveDetails(type, payload) {
   return { type, payload };
 }
 
-export function startSessionAction(loginDetails) {
+function startSessionAction(loginDetails) {
     return function action(dispatch) {
         dispatch(receiveDetails(types.SET_SESSION_LOADING, true));
         const request = fetch('/sessions/new', {
@@ -24,8 +24,8 @@ export function startSessionAction(loginDetails) {
                     dispatch(receiveDetails(types.SET_USER_EMAIL, info.email));
                     dispatch(receiveDetails(types.SET_SESSION_STATUS, info.status === 200));
                     dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
-                    info.warning && dispatch(receiveDetails(types.ADD_SESSION_WARNING, info.warning))
-                    info.error && dispatch(receiveDetails(types.ADD_SESSION_LOGIN_ERROR, info.error))
+                    info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
+                    info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, info.error))
                     if (info.status === 200) 
                         dispatch(navigate.toDashboard);
                     if (info.status === 404) {
@@ -34,13 +34,28 @@ export function startSessionAction(loginDetails) {
                 })
             }, 
             err => {
-                dispatch(receiveDetails(types.ADD_SESSION_LOGIN_ERROR, err))
+                dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, err))
                 dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
             },
         )
   }
+} 
+
+function endSessionAction() {
+    return function action(dispatch) {
+        dispatch(receiveDetails(types.SET_SESSION_LOADING, true));
+        dispatch(receiveDetails(types.ADD_SESSION_ID, ''));
+        dispatch(receiveDetails(types.SET_SESSION_EXPIRY, ''));
+        dispatch(receiveDetails(types.SET_USER_EMAIL, ''));
+        dispatch(receiveDetails(types.SET_SESSION_WARNING, ''))
+        dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, ''))
+        dispatch(receiveDetails(types.SET_SESSION_STATUS, false));
+        dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
+        dispatch(navigate.toHome);
+  }
 }
 
-export default {
+export {
     startSessionAction,
+    endSessionAction,
 };

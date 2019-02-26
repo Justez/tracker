@@ -7,6 +7,15 @@ class ErrorMessage extends React.Component {
         <p>
           Error
         </p>
+        <p>
+          Error
+        </p>
+        <p>
+          Error
+        </p>
+        <p>
+          Error
+        </p>
       </div>
     );
   }

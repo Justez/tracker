@@ -1,6 +1,5 @@
 import React from 'react';
-import {connect} from 'react-redux';
-
+import { connect } from 'react-redux';
 import SignInModal from '../components/SignInModal';
 import * as navigate from '../../utils/routes/navigators';
 import * as path from '../../utils/routes/paths';
@@ -82,7 +81,7 @@ const Navigation = (props) =>
                 </ul>
             </div>
         </div>
-        <div id="sign-in-modal" className="sign-in-modal">
+        <div id="sign-in-modal" className="modal-overlay">
             <SignInModal />
         </div>
     </div>
