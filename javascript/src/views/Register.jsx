@@ -94,8 +94,8 @@ class Register extends React.Component {
                             <button onClick={this.openLogin} onKeyPress={this.openLogin}>login to enter the {dashboard}</button>
                             .
                         </Success>
-                    : <Form id="sign-in-modal-form" onSubmit={handleSubmit(this.submit)}>
-                        <Header>Register your Tracker:</Header>
+                    : <Form id="register-form" onSubmit={handleSubmit(this.submit)}>
+                        <Header>Register your Tracker Account:</Header>
                         <Hr />
                         <Content>
                             {status !==200 && error && <Error>{error}</Error>}
@@ -157,4 +157,4 @@ const validate = ({ email, passwordRegister, passwordRepeat, trackerID }) => ({
     ),
 })
 
-export default reduxForm({ form: 'signin', validate })(Register);
+export default reduxForm({ form: 'register', validate })(Register);

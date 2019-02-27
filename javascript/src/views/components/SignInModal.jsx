@@ -48,14 +48,8 @@ const InputField = ({ input, label, type, disabled, placeholder, meta: { error, 
 const SignInModal = (props) => {
     const { handleSubmit, pristine, invalid, submitting, loading } = props;
     
-    const submit = (vals) => {
-        if (vals.email && vals.password) {
-            props.startSession(vals)
-        }
-    }
-
     return (
-        <Form id="sign-in-modal-form" onSubmit={handleSubmit(submit)}>
+        <Form id="sign-in-modal-form" onSubmit={handleSubmit(props.startSession)}>
             <Header>Login to Tracker portal:</Header>
             <Hr />       
             <Content>
@@ -96,7 +90,7 @@ const mapStateToProps = ({ session: { id, active, loading, warning, error }}) =>
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startSession: (val) => dispatch(startSessionAction(val))
+    startSession: () => dispatch(startSessionAction())
 });
 
 const form = connect(mapStateToProps, mapDispatchToProps)(SignInModal);

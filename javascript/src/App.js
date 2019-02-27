@@ -14,19 +14,10 @@ import { Switch, Route } from 'react-router-dom'
 
 class App extends React.Component {
   componentDidMount() {
-    if (this.props.active && this.props.expiry !== (new Date()).toLocaleDateString()) {
-      console.log('end session')
+    let today = (new Date()).toJSON().substring(0, 10).replace('-0', '-');
+    if (this.props.active && this.props.expiry !== today) {
       this.props.endSession();
     }
-    // proxy test
-    // fetch('/accounts/users', {
-    //   method: 'GET',
-    //   mode: 'cors',
-    //   credentials: 'include',
-    //   headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    // })
-    //   .then(res => res.json())
-    //   .then(users => console.log(users))
     
     const main = document.getElementsByTagName('main')[0];
     main.addEventListener('click', () => document.getElementsByClassName('menu')[0].classList.remove("active"));

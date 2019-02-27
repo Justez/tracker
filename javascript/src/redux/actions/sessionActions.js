@@ -5,15 +5,15 @@ function receiveDetails(type, payload) {
   return { type, payload };
 }
 
-function startSessionAction(loginDetails) {
-    return function action(dispatch) {
+function startSessionAction() {
+    return function action(dispatch, getState) {
         dispatch(receiveDetails(types.SET_SESSION_LOADING, true));
         const request = fetch('/sessions/new', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(loginDetails),
+            body: JSON.stringify(getState().form.signin.values),
         })
 
         return request.then(

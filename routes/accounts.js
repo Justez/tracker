@@ -5,7 +5,7 @@ var authenticate = require('../utils/registerApp')
 router.get('/', function(req, res, next) {
 });
 
-router.get('/users', function(req, res, next) {
+router.get('/all', function(req, res, next) {
   try {
     authenticate(users);
 
@@ -75,11 +75,10 @@ router.post('/create', function(req, res, next) {
                     'mimeType': 'application/vnd.google-apps.folder'
                   },
                   fields: 'id'
-                }, (newuserError, newuserResponse) => {
+                }, (newuserError) => {
                       if (newuserError) {
                         resolve({ status: newuserError.newuserResponse.status, error: newuserError.errors[0], url: newuserError.config.url });
-                      } else
-                        resolve({ status: 200 });
+                      } else resolve({ status: 200 });
                 });
               }
             }
@@ -91,5 +90,121 @@ router.post('/create', function(req, res, next) {
     next(e) 
   }
 });
+
+router.post('/devices/new', function(req, res, next) {
+  try {
+    authenticate(users);
+
+    async function users(auth) {
+      const devices = await getUsers(auth);
+      res.json(devices)
+      return;
+    }
+
+    function getUsers(auth) {
+      return new Promise(resolve => {
+        const useremail = req.body.email;
+        const { google } = require('googleapis');
+        const drive = google.drive({version: 'v3', auth});
+        
+        drive.files.list({
+          fields: 'files(id, name)', 
+          q: `name = '${useremail}' and mimeType = 'application/vnd.google-apps.folder'` 
+        },
+          (deviceErrors, deviceResults) => {
+            if (deviceErrors) {
+              resolve({ status: deviceErrors.response.status, error: deviceErrors.errors });
+            } else {
+              if (deviceResults.data.files.length) {
+                const ID = req.body.device.trackerID;
+                const IP = req.body.device.trackerIP;
+                const userId = deviceResults.data.files[0].id;
+                drive.files.create({
+                  resource: {
+                    'name': `${ID} ${IP}`,
+                    parents: [userId],
+                    'mimeType': 'application/vnd.google-apps.folder'
+                  },
+                  fields: 'id'
+                }, (deviceErrors) => {
+                      if (deviceErrors) {
+                        resolve({ status: 500, error: deviceErrors.errors[0].message, url: deviceErrors.config.url });
+                      } else {
+                        drive.files.list({
+                          fields: 'files(id, name)', 
+                          q: `'${userId}' in parents and mimeType = 'application/vnd.google-apps.folder'` 
+                        },
+                          (deviceListErrors, deviceListResults) => {
+                            if (deviceListErrors) {
+                              resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors, url: deviceListErrors.config.url });
+                            } else {
+                              if (deviceListResults.data.files.length) {
+                                resolve({ status: 200, devices: deviceListResults.data.files });
+                              } else resolve({ status: 500, error: 'Unexpected error. Please try again later.'})
+                            }
+                          });
+                      }
+                });
+              } else resolve({ status: 404, error: 'User does not exists!' });
+            }
+            return;
+          })
+      });
+    }
+  } catch (e) {
+    next(e) 
+  }
+});
+
+router.post('/devices/all', function(req, res, next) {
+  try {
+    authenticate(users);
+
+    async function users(auth) {
+      const devices = await getUsers(auth);
+      res.json(devices)
+      return;
+    }
+
+    function getUsers(auth) {
+      return new Promise(resolve => {
+        const useremail = req.body.email;
+        const { google } = require('googleapis');
+        const drive = google.drive({version: 'v3', auth});
+        
+        drive.files.list({
+          fields: 'files(id, name)', 
+          q: `name = '${useremail}' and mimeType = 'application/vnd.google-apps.folder'` 
+        },
+          (deviceErrors, deviceResults) => {
+            if (deviceErrors) {
+              resolve({ status: deviceErrors.response.status, error: deviceErrors.errors });
+            } else {
+              if (deviceResults.data.files.length) {
+                const userId = deviceResults.data.files[0].id;
+                drive.files.list({
+                  fields: 'files(id, name)', 
+                  q: `'${userId}' in parents and mimeType = 'application/vnd.google-apps.folder'` 
+                },
+                  (deviceListErrors, deviceListResults) => {
+                    if (deviceListErrors) {
+                      resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors, url: deviceListErrors.config.url });
+                    } else {
+                      if (deviceListResults.data.files.length) {
+                        resolve({ status: 200, devices: deviceListResults.data.files });
+                      } else resolve({ status: 500, error: 'Unexpected error. Please try again later.'})
+                    }
+                  });
+              } else resolve({ status: 404, error: 'User does not exists!' });
+            }
+            return;
+          })
+      });
+    }
+  } catch (e) {
+    next(e) 
+  }
+});
+
 
 module.exports = router;
