@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { endSessionAction } from '../redux/actions/sessionActions';
 
 const Dashboard = (props) => {
+    console.log(props);
+    
     if (props.active) {
         return (
             <div className="dashboard container">
@@ -20,21 +22,14 @@ const Dashboard = (props) => {
                 </div>
             </div>
         )
+    } else {
+        return <div className="dashboard container">
+            <div className="title">
+                Your session is not active. Please{' '}
+                <button onClick={() => document.getElementById("sign-in-modal").style.display = "block"}>login</button>
+            </div>
+        </div> 
     }
-    return <div className="dashboard container">
-        <div className="title">
-            Redirecting back to home... 
-        </div>
-        <div className="title">
-            Redirecting back to home... 
-        </div>
-        <div className="title">
-            Redirecting back to home... 
-        </div>
-        <div className="title">
-            Redirecting back to home... 
-        </div>
-    </div> 
 }
 
 function mapStateToProps({ session: { email, active }}) {

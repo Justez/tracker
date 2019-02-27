@@ -26,7 +26,7 @@ function startSessionAction(loginDetails) {
                     info.status !== 404 && dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
                     info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
                     info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, info.error))
-                    if (info.status === 200) 
+                    if (info.status === 200)
                         dispatch(navigate.toDashboard);
                     if (info.status === 404) {
                         setTimeout(() => {
