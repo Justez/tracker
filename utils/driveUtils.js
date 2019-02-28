@@ -57,8 +57,25 @@ async function checkDeviceExists(drive, id) {
   })
 }
 
+async function createCoordRecord(drive, parent, coords) {
+  return await new Promise(resolve => {
+    const now = (new Date()).toISOString();
+    drive.files.create({
+      resource: { 'name': `${now}|${coords}.txt`, parents: [newtrackDayResponse.data.id] },  
+      fields: 'id',
+    }, (newtrackError, newtrackResponse) => {
+        if (newtrackError) {
+          resolve({ status: newtrackError.newtrackResponse.status, error: newtrackError.errors[0] });
+        } else {
+          resolve({ status: newtrackResponse.data.id ? 200 : 500 });
+        }
+    })
+  });
+}
+
 module.exports = {
   checkDeviceExists,
+  createCoordRecord,
   getUserDevices,
   checkUserExists
 };

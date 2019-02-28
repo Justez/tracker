@@ -75,14 +75,14 @@ class Dashboard extends React.Component {
             trackDaySelected: undefined, 
             trackDays: undefined 
         })
-        const { email } = this.props;
+        const { email, userID } = this.props;
 
         const request = fetch('/accounts/devices/tracks', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ ...device, email }),
+            body: JSON.stringify({ ...device, email, userID }),
         })
 
         request.then(
@@ -171,8 +171,8 @@ class Dashboard extends React.Component {
     }
 }
 
-function mapStateToProps({ session: { active, email }, account: { devices, loading, status }}) {
-    return { active, email, devices, loading, status };
+function mapStateToProps({ session: { active, email, userID }, account: { devices, loading, status }}) {
+    return { active, email, userID, devices, loading, status };
 }
 
 const mapDispatchToProps = (dispatch) => ({

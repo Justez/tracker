@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authenticate = require('../utils/registerApp')
 const { google } = require('googleapis');
-var { checkDeviceExists } = require('../utils/driveUtils');
+var { checkDeviceExists, createCoordRecord } = require('../utils/driveUtils');
 
 router.get('/:id/:coords', function(req, res, next) {
     try {
@@ -25,7 +25,6 @@ router.get('/:id/:coords', function(req, res, next) {
         function saveLocation(drive, id, coords) {
           return new Promise(resolve => {
             const today = (new Date).toLocaleDateString();
-            const now = (new Date()).toISOString();
     
             drive.files.list({
               fields: 'files(id, name)', 
@@ -37,16 +36,7 @@ router.get('/:id/:coords', function(req, res, next) {
                 } else {
                     if (trackResults.data.files.length) {
                         const track = trackResults.data.files[0];
-                        drive.files.create({
-                            resource: { 'name': `${now}|${coords}.txt`, parents: [track.id] },  
-                            fields: 'id',
-                        }, (newtrackError, newtrackResponse) => {
-                            if (newtrackError) {
-                            resolve({ status: newtrackError.newtrackResponse.status, error: newtrackError.errors[0].message });
-                            } else {
-                            resolve({ status: newtrackResponse.data.id ? 200 : 500 });
-                            }
-                        })
+                        resolve(createCoordRecord(drive, track.id, coords));
                     } else {
                         drive.files.create({
                             resource: { 'name': `tracking:${today}`, mimeType: 'application/vnd.google-apps.folder', parents: [id] },  
@@ -55,17 +45,9 @@ router.get('/:id/:coords', function(req, res, next) {
                             if (newtrackDayError) {
                                 resolve({ status: 500, error: newtrackDayError.errors[0].message });
                             } else {
-                                if (newtrackDayResponse.data.id) {
-                                    drive.files.create({
-                                        resource: { 'name': `${now}|${coords}.txt`, parents: [newtrackDayResponse.data.id] },  
-                                        fields: 'id',
-                                    }, (newtrackError, newtrackResponse) => {
-                                        if (newtrackError) {
-                                            resolve({ status: newtrackError.newtrackResponse.status, error: newtrackError.errors[0] });
-                                        } else {
-                                            resolve({ status: newtrackResponse.data.id ? 200 : 500 });
-                                        }
-                                    })
+                                const parent = newtrackDayResponse.data.id
+                                if (parent) {
+                                    resolve(createCoordRecord(drive, parent, coords));
                                 } else {
                                     resolve({ status: 500, error: 'Failed to save.' });
                                 }

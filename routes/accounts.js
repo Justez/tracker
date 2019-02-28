@@ -12,16 +12,14 @@ router.post('/create', function(req, res, next) {
     authenticate(users);
 
     async function users(auth) {
-      const users = await getUsers(auth);
+      const drive = google.drive({version: 'v3', auth});
+      const users = await getUsers(drive);
       res.json(users)
-      return;
     }
 
-    function getUsers(auth) {
+    function getUsers(drive) {
       return new Promise(resolve => {
         const email = req.body.email;
-        const { google } = require('googleapis');
-        const drive = google.drive({version: 'v3', auth});
         drive.files.list({
           fields: 'files(id, name)', 
           q: `name = '${email}' and mimeType = 'application/vnd.google-apps.folder'` 
@@ -46,7 +44,6 @@ router.post('/create', function(req, res, next) {
                 });
               }
             }
-            return;
           })
       });
     }
@@ -67,10 +64,9 @@ router.post('/devices/new', function(req, res, next) {
         const devices = await getDevices(drive, check.id, email);
         res.json(devices)
       } else res.json(check)
-      return;
     }
 
-    function getDevices(drive, userId, email) {
+    function getDevices(drive, userId) {
       return new Promise(resolve => {
         const ID = req.body.device.trackerID;
         const IP = req.body.device.trackerIP;
@@ -99,33 +95,15 @@ router.post('/devices/all', function(req, res, next) {
     authenticate(users);
 
     async function users(auth) {
-      const devices = await getUsers(auth);
-      res.json(devices)
-      return;
-    }
-
-    function getUsers(auth) {
-      return new Promise(resolve => {
-        const email = req.body.email;
-        const userID = req.body.id;
-        const { google } = require('googleapis');
-        const drive = google.drive({version: 'v3', auth});
-        
-        drive.files.list({ // only to make sure user is the one.
-          fields: 'files(id, name)', 
-          q: `name = '${email}' and mimeType = 'application/vnd.google-apps.folder'` 
-        },
-          (deviceErrors, deviceResults) => {
-            if (deviceErrors) {
-              resolve({ status: deviceErrors.response.status, error: deviceErrors.errors });
-            } else {
-              if (deviceResults.data.files.length && deviceResults.data.files[0].id === userID) {
-                getUserDevices(drive, userID).then(info => resolve(info));
-              } else resolve({ status: 404, error: 'User does not exists!' });
-            }
-            return;
-          })
-      });
+      const { email, id } = req.body;
+      const drive = google.drive({version: 'v3', auth});
+      const check = await checkUserExists(drive, id, email)
+      if (check.status === 200) {
+        const devices = await new Promise(resolve => {
+          getUserDevices(drive, id).then(info => resolve(info));
+        });
+        res.json(devices)
+      } else res.json(check)
     }
   } catch (e) {
     next(e) 
@@ -137,59 +115,42 @@ router.post('/devices/tracks', function(req, res, next) {
     authenticate(users);
 
     async function users(auth) {
-      const devices = await getUsers(auth);
-      res.json(devices)
-      return;
+      const drive = google.drive({version: 'v3', auth});
+      const { email, userID, name: trackerName } = req.body;
+      const check = await checkUserExists(drive, userID, email)
+      if (check.status === 200) {
+        const devices = await getTracks(drive, trackerName, userID);
+        res.json(devices)
+      } else res.json(check)
     }
 
-    function getUsers(auth) {
+    function getTracks(drive, trackerName, userID) {
       return new Promise(resolve => {
-        const email = req.body.email;
-        const trackerName = req.body.name;
-        const { google } = require('googleapis');
-        const drive = google.drive({version: 'v3', auth});
-        
         drive.files.list({
           fields: 'files(id, name)', 
-          q: `name = '${email}' and mimeType = 'application/vnd.google-apps.folder'` 
+          q: `name contains 'name:${trackerName} ID:' and '${userID}' in parents and mimeType = 'application/vnd.google-apps.folder'` 
         },
-          (deviceErrors, deviceResults) => {
-            if (deviceErrors) {
-              resolve({ status: deviceErrors.response.status, error: deviceErrors.errors });
+          (deviceListErrors, deviceListResults) => {
+            if (deviceListErrors) {
+              resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors, url: deviceListErrors.config.url });
             } else {
-              if (deviceResults.data.files.length) {
-                const userId = deviceResults.data.files[0].id;
+              if (deviceListResults.data.files.length) {
                 drive.files.list({
                   fields: 'files(id, name)', 
-                  q: `name contains 'name:${trackerName} ID:' and '${userId}' in parents and mimeType = 'application/vnd.google-apps.folder'` 
-                },
-                  (deviceListErrors, deviceListResults) => {
-                    console.log(deviceListResults.data.files);
-                    
-                    if (deviceListErrors) {
-                      resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors, url: deviceListErrors.config.url });
+                  q: `'${deviceListResults.data.files[0].id}' in parents and mimeType = 'application/vnd.google-apps.folder'` 
+                }, (trackErr, trackRes) => {
+                  if (trackErr) resolve({ status: trackErr.response.status, error: trackErr.errors })
+                  if (!trackErr) {
+                    if (trackRes.data.files.length) {
+                      resolve({ status: 200, trackDays: trackRes.data.files.map(f => ({ id: f.id, name: f.name.split(':')[1] })) })
                     } else {
-                      if (deviceListResults.data.files.length) {
-                        drive.files.list({
-                          fields: 'files(id, name)', 
-                          q: `'${deviceListResults.data.files[0].id}' in parents and mimeType = 'application/vnd.google-apps.folder'` 
-                        }, (trackErr, trackRes) => {
-                          if (trackErr) resolve({ status: trackErr.response.status, error: trackErr.errors })
-                          if (!trackErr) {
-                            if (trackRes.data.files.length) {
-                              resolve({ status: 200, trackDays: trackRes.data.files })
-                            } else {
-                              resolve({ status: 204, error: 'No data recorded yet.'})
-                            }
-                          }
-                        });
-                      } else resolve({ status: 500, error: 'Unexpected error. Tracker information missing. Please contact support for details.'});
+                      resolve({ status: 204, error: 'No data recorded yet.'})
                     }
-                  });
-              } else resolve({ status: 404, error: 'User does not exists!' });
+                  }
+                });
+              } else resolve({ status: 500, error: 'Unexpected error. Tracker information missing. Please contact support for details.'});
             }
-            return;
-          })
+          });
       });
     }
   } catch (e) {
