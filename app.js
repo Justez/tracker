@@ -6,6 +6,7 @@ var logger = require('morgan');
 var accountsRouter = require('./routes/accounts');
 var registerRouter = require('./routes/register');
 var sessionsRouter = require('./routes/sessions');
+var devicesRouter = require('./routes/devices');
 var compression = require('compression');
 var helmet = require('helmet');
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/register', registerRouter);
 app.use('/api/accounts', accountsRouter);
 app.use('/api/sessions', sessionsRouter);
+app.use('/api/devices', devicesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

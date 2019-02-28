@@ -13,7 +13,7 @@ function getUserDevicesAction() {
             mode: 'cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: getState().session.email, id: getState().session.id }),
+            body: JSON.stringify({ email: getState().session.email, id: getState().session.userID }),
         })
 
         return request.then(
@@ -21,7 +21,7 @@ function getUserDevicesAction() {
                 response.json().then((info) => {
                     dispatch(receiveDetails(types.SET_TRANSACTION_STATUS, info.status))
                     dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
-                    info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error))
+                    info.error && info.status !== 204 && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error))
                     info.status === 404 && setTimeout(() => {
                         info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
                         dispatch(navigate.toRegister)

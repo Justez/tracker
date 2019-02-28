@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { endSessionAction } from '../redux/actions/sessionActions';
 import { getUserDevicesAction } from '../redux/actions/accountActions';
 import DeviceForm from './components/DeviceRegisterForm';
 import styled from 'styled-components';
@@ -10,6 +9,8 @@ const Wrapper = styled.div`
     min-height: 75vh;
     width: 98%;
 `;
+const Success = styled.div`color: #25b0fb;`;
+const Error = styled.div`color: red;`;
 const Title = styled.h2`
     margin: 0 0 0 2vw;
     text-align: left;
@@ -19,27 +20,39 @@ const Content = styled.div`
     width: 98%;
 `;
 const Map = styled.div`
-    padding: 1vh 0 1vh 0;
-    flex-direction: column;
+    margin: 3vh 0 0 1vh;
+    padding: 2vh 1vh 1vh 1vh;
+    width: 95%;
+    overflow: hidden;
+    border: 2px solid white;
+    border-radius: 1vh;
+    text-aligh: left;
     @media only screen and (max-width: 800px) { padding: 1vh 1vh 1vh 1vh; }
 `;
 const Device = styled.div`
     padding: 2vh 2vw 2vh 2vw;
     border: 2px solid white;
+    font-size: 0.8em;
+    word-wrap: normal;
     border-radius: 1vh;
+    width: 90%;
     margin-top: 2vh;
     :hover {
         cursor: pointer;
-        font-weight: bolder;
+        color: lightblue;
     }
-`;
-const Button = styled.button`
-    margin-top: 5vh;
 `;
 
 class Dashboard extends React.Component {
-    state = { 
+    state = {
         showForm: false,
+        showDevice: undefined,
+        loading: false,
+        showMap: false,
+        tracks: undefined,
+        trackDaySelected: undefined,
+        trackDays: undefined,
+        error: '',
     }
     
     componentDidMount() {
@@ -47,13 +60,52 @@ class Dashboard extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        prevProps.devices.length < this.props.devices.length && this.setState({ showForm: false })
+        if (prevProps.devices.length < this.props.devices.length) {
+            this.setState({ showForm: false })
+        }
+    }
+
+    openDevice = (device) => {
+        this.setState({ 
+            showDevice: device, 
+            showForm: false, 
+            loading: true, 
+            error: '',
+            tracks: undefined, 
+            trackDaySelected: undefined, 
+            trackDays: undefined 
+        })
+        const { email } = this.props;
+
+        const request = fetch('/accounts/devices/tracks', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...device, email }),
+        })
+
+        request.then(
+            response => {
+                response.json().then((info) => {
+                    console.log(info);
+                    this.setState({ trackDays: info.trackDays })
+                    // if tracks present open map in ID
+                    info.status !== 200 && this.setState({ error: info.error || 'Unexpected error ocurred. Please try again later.' })
+                })
+            }, 
+        )
+        .catch(() => this.setState({ tracks: [] }))
+        .finally(() => this.setState({ loading: false }));
+    }
+
+    getTracksByDay = (day) => {
+        this.setState({ trackDaySelected: day, loading: true })
     }
 
     render() {
         const { active, devices, loading } = this.props;
-        const { showForm } = this.state;
-        
+        const { showForm, showDevice, tracks, error, trackDays, loading: loadingTracks, trackDaySelected } = this.state;
         const Devices = styled.div`
             padding: 1vh 1vh 1vh 1vh;
             min-width: ${devices.length ? '40%' : '80%'}
@@ -67,24 +119,42 @@ class Dashboard extends React.Component {
                         Your Devices:
                     </Title>
                     <Content>
-                        <Devices>
-                            {loading && 'Loading your account...'}
-                            {!loading && devices && devices.length > 0 && devices.map(d => 
-                                <Device key={d.id}>{d.name}</Device>
-                            )}
-                            {!loading && devices && devices.length === 0 && 
-                                <DeviceForm />
+                    <Devices>
+                        {loading && 'Loading account...'}
+                        {!loading && devices && devices.length > 0 && devices.map(d => 
+                            <Device key={d.id} onClick={() => !loading && this.openDevice(d)}>
+                                {showDevice && showDevice.id === d.id ? <Success>{d.name}</Success> : d.name}
+                            </Device>
+                        )}
+                        {!loading && devices && devices.length > 0 && devices.length < 10 &&
+                            <Device onClick={() => this.setState({ showForm: true, showDevice: undefined })}>Add new device</Device>
+                        }
+                        {!loading && devices && devices.length === 0 && <DeviceForm />}
+                    </Devices>
+                    {showForm && <DeviceForm closeForm={() => this.setState({ showForm: false })}/>}
+                    {showDevice &&
+                        <Map>
+                            {!loadingTracks && !trackDays && <Error>{error}</Error>}
+                            {!loadingTracks && tracks && tracks.length > 0 && <div id="map" />}
+                            {!loadingTracks && trackDays && trackDays.length === 0 && <p>There are no tracking points recorded yet!</p>}
+                            {trackDays && !tracks && <div>
+                                Days recorded: 
+                                    {trackDays && trackDays.map(d => 
+                                        <Device 
+                                            key={d.id} 
+                                            onClick={() => this.getTracksByDay(d)}
+                                        >
+                                                {d.name}
+                                        </Device>
+                                    )}
+                                </div>
                             }
-                            {!loading && !showForm && devices && devices.length > 0 && devices.length < 10 &&
-                                <Button onClick={() => this.setState({ showForm: true })}>Add new device</Button>
-                            }
-                        </Devices>
-                        <Map id="map">
-                            {showForm && <DeviceForm closeForm={() => this.setState({ showForm: false })}/>}
+                            {loadingTracks && !trackDays && <div>Loading days recorded...</div>}
+                            {loadingTracks && trackDaySelected && <p>Loading tracks and opening map...</p>}
                         </Map>
-                    </Content>
-                </Wrapper>
-            )
+                    }   
+                </Content>
+            </Wrapper>)
         } else {
             return <Wrapper>
                 <Title className="title">
@@ -101,12 +171,11 @@ class Dashboard extends React.Component {
     }
 }
 
-function mapStateToProps({ session: { active }, account: { devices, loading, status, error }}) {
-    return { active, devices, loading, status, error };
+function mapStateToProps({ session: { active, email }, account: { devices, loading, status }}) {
+    return { active, email, devices, loading, status };
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    endSession: () => dispatch(endSessionAction()),
     getUserDevices: () => dispatch(getUserDevicesAction()),
 });
 
