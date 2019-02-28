@@ -65,6 +65,9 @@
 }
 
 @media only screen and (max-width: 1200px) {
+    .index .main .content {
+        padding-top: 10vh;
+    }
     .index .description .photo { display: none; }
     .index .main { background-size: auto 140vh; }
 

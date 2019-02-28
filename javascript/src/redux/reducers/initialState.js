@@ -6,6 +6,8 @@ export default {
         status: undefined,
     },
     session: {
+        id: '',
+        userID: '',
         active: false,
         error: '',
         loading: false,

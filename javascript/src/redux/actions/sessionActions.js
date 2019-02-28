@@ -22,6 +22,7 @@ function startSessionAction() {
                     dispatch(receiveDetails(types.ADD_SESSION_ID, info.id));
                     dispatch(receiveDetails(types.SET_SESSION_EXPIRY, info.expiry));
                     dispatch(receiveDetails(types.SET_USER_EMAIL, info.email));
+                    dispatch(receiveDetails(types.SET_USER_ID, info.userId));
                     dispatch(receiveDetails(types.SET_SESSION_STATUS, info.status === 200));
                     info.status !== 404 && dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
                     info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
@@ -52,6 +53,7 @@ function endSessionAction() {
         dispatch(receiveDetails(types.ADD_SESSION_ID, ''));
         dispatch(receiveDetails(types.SET_SESSION_EXPIRY, ''));
         dispatch(receiveDetails(types.SET_USER_EMAIL, ''));
+        dispatch(receiveDetails(types.SET_USER_ID, ''));
         dispatch(receiveDetails(types.SET_SESSION_WARNING, ''))
         dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, ''))
         dispatch(receiveDetails(types.SET_SESSION_STATUS, false));

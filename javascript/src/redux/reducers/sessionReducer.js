@@ -13,6 +13,8 @@ export default function session(state = initialState.session, action) {
       return newState('loading');
     case sessionActions.SET_USER_EMAIL: 
       return newState('email');
+    case sessionActions.SET_USER_ID: 
+      return newState('userID');
     case sessionActions.ADD_SESSION_ID: 
       return newState('id');
     case sessionActions.SET_SESSION_LOGIN_ERROR:

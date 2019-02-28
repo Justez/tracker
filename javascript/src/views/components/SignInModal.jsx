@@ -46,15 +46,15 @@ const InputField = ({ input, label, type, disabled, placeholder, meta: { error, 
 )
 
 const SignInModal = (props) => {
-    const { handleSubmit, pristine, invalid, submitting, loading } = props;
+    const { handleSubmit, pristine, invalid, submitting, loading, error, warning } = props;
     
     return (
         <Form id="sign-in-modal-form" onSubmit={handleSubmit(props.startSession)}>
             <Header>Login to Tracker portal:</Header>
             <Hr />       
             <Content>
-                {props.warning && <div className="warning">{props.warning}</div>}
-                {props.error && <div className="error">{props.error}</div>}
+                {warning && <div className="warning">{warning}</div>}
+                {error && typeof error == 'string' && <div className="error">{error}</div>}
                 <Field
                     component={InputField}
                     disabled={loading}

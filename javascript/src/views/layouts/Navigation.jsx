@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { endSessionAction } from '../../redux/actions/sessionActions';
 import SignInModal from '../components/SignInModal';
 import * as navigate from '../../utils/routes/navigators';
 import * as path from '../../utils/routes/paths';
@@ -12,7 +13,6 @@ const modifyClass = (e) => {
 
 const openSignIn = () => {
     const modal = document.getElementById("sign-in-modal")
-    // modal.classList.add("active")
     modal.style.display = "block";
 
     modal.addEventListener('click', (e) => {
@@ -78,6 +78,15 @@ const Navigation = (props) =>
                     >
                         {pathName.contact}
                     </li>
+                    {props.active &&
+                        <li 
+                            onClick={props.endSession} 
+                            onKeyPress={props.endSession}
+                            tabIndex="0"
+                        >
+                            Sign out
+                        </li>
+                    }  
                 </ul>
             </div>
         </div>
@@ -90,4 +99,8 @@ function mapStateToProps({ session: { active }}) {
     return { active };
 }
 
-export default connect(mapStateToProps)(Navigation);
+const mapDispatchToProps = (dispatch) => ({
+    endSession: () => dispatch(endSessionAction()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navigation);

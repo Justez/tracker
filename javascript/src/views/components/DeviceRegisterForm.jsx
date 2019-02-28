@@ -18,10 +18,12 @@ const Title = styled.h4`
 `;
 const Form = styled.form`
     text-align: left;
-    padding-left: 10vh;
+    padding: 2vh 0 1vh 6vh;
     width: 85%;
-    padding-top: 2vh;
-    @media only screen and (max-width: 800px) { width: 98%; padding-left: 1vh; }
+    @media only screen and (max-width: 800px) { 
+        width: 98%;
+        padding: 3vh 1vh 1vh 1vh;
+    }
 `;
 const InputDiv = styled.div`
     padding: 1vh 1vh 2vh 0;
@@ -29,7 +31,7 @@ const InputDiv = styled.div`
 const Input = styled.input`
     border: 1px solid grey;
     border-radius: 1vmin;
-    line-height: 5vmin;
+    line-height: 4vmin;
     padding: 1vmin 1vmin 1vmin 1vmin;
     font-size: 0.8em;
     width: 100%;
@@ -56,6 +58,15 @@ const DeviceForm = ({ handleSubmit, invalid, pristine, submitting, error, loadin
         <Field
             component={InputField}
             disabled={loading}
+            label="Tracking Device name:"
+            name="trackerName"
+            placeholder="Tracking Device name:"
+            type="text"
+            normalize={normalizeSpaces}
+        />
+        <Field
+            component={InputField}
+            disabled={loading}
             label="Unique tracking device ID:"
             name="trackerID"
             note="Savely secure this ID and do not disclose it to anyone. This may lead to conterfeit location history!"
@@ -73,7 +84,7 @@ const DeviceForm = ({ handleSubmit, invalid, pristine, submitting, error, loadin
             type="text"
             normalize={normalizeSpaces}
         />
-        {<SubmitError>{'' || error}</SubmitError>}
+        {<SubmitError>{error && typeof error == 'string' ? error : ''}</SubmitError>}
         <Button 
             disabled={invalid || pristine || submitting || loading}
             type="submit" 
@@ -85,9 +96,16 @@ const DeviceForm = ({ handleSubmit, invalid, pristine, submitting, error, loadin
         </Button>
     </Form>
 
-const validate = ({ trackerID, trackerIP }) => ({
-    trackerID: !trackerID && 'Required!',
-    trackerIP: !trackerIP && 'Required!',
+const validate = ({ trackerID, trackerIP, trackerName }) => ({
+    trackerID: (!trackerID && 'Required!') 
+        || (trackerID.length > 20 && 'ID is too long!') 
+        || (trackerID.indexOf(' ') + 1 && 'White spaces are not allowed!'),
+    trackerIP: (!trackerIP && 'Required!') 
+        || (trackerIP.length > 39 && 'IP is too long!')
+        || (trackerIP.indexOf(' ') + 1 && 'White spaces are not allowed!'),
+    trackerName: (!trackerName && 'Required!')
+        || (trackerName.length > 40 && 'Name is too long!') 
+        || (trackerName.indexOf(' ') + 1 && 'White spaces are not allowed!'),
 })
 
 function mapStateToProps({ account: { loading, error }}) {

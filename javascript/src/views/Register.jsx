@@ -15,7 +15,7 @@ const Success = styled.div`
 const Input = styled.input`
     border: 1px solid grey;
     border-radius: 1vmin;
-    line-height: 5vmin;
+    line-height: 4vmin;
     padding: 1vmin 1vmin 1vmin 1vmin;
     font-size: 0.8em;
     width: 100%;
@@ -23,6 +23,9 @@ const Input = styled.input`
 `;
 const Error = styled.small`
     font-size: 2vmin;
+    color: red;
+`;
+const SubmitError = styled.p`
     color: red;
 `;
 const Form = styled.form`
@@ -63,29 +66,28 @@ class Register extends React.Component {
     }
 
     submit = (vals) => {
-        if (vals.email && vals.password && vals.trackerID) {
-            this.setState({ loading: true });
-            fetch('/accounts/create', {
-                method: 'POST',
-                mode: 'cors',
-                credentials: 'include',
-                headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-                body: JSON.stringify(vals),
+        this.setState({ loading: true });
+        fetch('/accounts/create', {
+            method: 'POST',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(vals),
+        })
+            .then((response) => response.json())
+            .then((info) => this.setState({ status: info.status, error: info.status !== 200 ? info.error : '' }))
+            .catch(() => this.setState({ error: 'Unexpected error occured... We are checking on it! Please try again later.' }))
+            .finally(() => {
+                this.setState({ loading: false })
             })
-                .then((response) => response.json())
-                .then((info) => {
-                    this.setState({ status: info.status, error: info.status !== 200 ? info.error : '' })
-                })
-                .catch(() => this.setState({ error: 'Unexpected error occured... We are checking on it! Please try again later.' }))
-                .finally(() => {
-                    this.setState({ loading: false })
-                })
-        }
     }   
 
     render() {
         const { handleSubmit, pristine, invalid, submitting } = this.props;
         const { loading, error, status } = this.state;
+
+        const normalizeSpaces = value => value && value.replace(' ', '')
+
         return (
             <Container>
                 {status === 200
@@ -98,7 +100,6 @@ class Register extends React.Component {
                         <Header>Register your Tracker Account:</Header>
                         <Hr />
                         <Content>
-                            {status !==200 && error && <Error>{error}</Error>}
                             <Field
                                 component={InputField}
                                 disabled={loading}
@@ -110,11 +111,31 @@ class Register extends React.Component {
                             <Field
                                 component={InputField}
                                 disabled={loading}
+                                label="Tracking Device name:"
+                                name="trackerName"
+                                placeholder="Tracking Device name:"
+                                type="text"
+                                normalize={normalizeSpaces}
+                            />
+                            <Field
+                                component={InputField}
+                                disabled={loading}
                                 label="Unique tracking device ID:"
                                 name="trackerID"
                                 note="Savely secure this ID and do not disclose it to anyone. This may lead to conterfeit location history!"
                                 type="text"
                                 placeholder="Uninque tracking device ID:"
+                                normalize={normalizeSpaces}
+                            />
+                            <Field
+                                component={InputField}
+                                disabled={loading}
+                                label="Device IP:"
+                                name="trackerIP"
+                                note="If IP of the device changes you will have to confirm your device via email."
+                                placeholder="Tracking Device IP:"
+                                type="text"
+                                normalize={normalizeSpaces}
                             />
                             <Field
                                 component={InputField}
@@ -138,6 +159,7 @@ class Register extends React.Component {
                             >
                                 {loading ? 'Loading...' : 'Register'}
                             </button>
+                            {status !==200 && error && <SubmitError>{error}</SubmitError>}
                         </Content>
                     </Form>
                 }
@@ -146,9 +168,17 @@ class Register extends React.Component {
     }
 }
 
-const validate = ({ email, passwordRegister, passwordRepeat, trackerID }) => ({
+const validate = ({ email, passwordRegister, passwordRepeat, trackerID, trackerIP, trackerName }) => ({
     email: !email && 'Required!',
-    trackerID: !trackerID && 'Required!',
+    trackerID: (!trackerID && 'Required!') 
+        || (trackerID.length > 20 && 'ID is too long!') 
+        || (trackerID.indexOf(' ') + 1 && 'White spaces are not allowed!'),
+    trackerIP: (!trackerIP && 'Required!') 
+        || (trackerIP.length > 39 && 'IP is too long!')
+        || (trackerIP.indexOf(' ') + 1 && 'White spaces are not allowed!'),
+    trackerName: (!trackerName && 'Required!')
+        || (trackerName.length > 40 && 'Name is too long!') 
+        || (trackerName.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     passwordRegister: (!passwordRegister && 'Required!') || (
         passwordRegister && passwordRepeat && (passwordRegister !== passwordRepeat) && 'Passwords do not match!'
     ),
