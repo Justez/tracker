@@ -76,7 +76,7 @@ class Register extends React.Component {
         })
             .then((response) => response.json())
             .then((info) => this.setState({ status: info.status, error: info.status !== 200 ? info.error : '' }))
-            .catch(() => this.setState({ error: 'Unexpected error occured... We are checking on it! Please try again later.' }))
+            .catch(() => this.setState({ error: 'Unexpected error occured... Please try again later.' }))
             .finally(() => {
                 this.setState({ loading: false })
             })
@@ -170,11 +170,13 @@ class Register extends React.Component {
 
 const validate = ({ email, passwordRegister, passwordRepeat, trackerID, trackerIP, trackerName }) => ({
     email: !email && 'Required!',
-    trackerID: (!trackerID && 'Required!') 
+    trackerID: (!trackerID && 'Required!')
         || (trackerID.length > 20 && 'ID is too long!') 
+        || (trackerID.length < 10 && 'ID is too short!') 
         || (trackerID.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     trackerIP: (!trackerIP && 'Required!') 
         || (trackerIP.length > 39 && 'IP is too long!')
+        || (trackerIP.length < 7 && 'IP is too short!')
         || (trackerIP.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     trackerName: (!trackerName && 'Required!')
         || (trackerName.length > 40 && 'Name is too long!') 

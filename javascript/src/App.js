@@ -50,7 +50,7 @@ class App extends React.Component {
   }
 }
 
-function mapStateToProps({ session: { email, active, expiry }}) {
+function mapStateToProps({ session: { email, active, expiry, loading }}) {
   return { email, active, expiry };
 }
 

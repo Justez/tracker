@@ -4,8 +4,7 @@ var authenticate = require('../utils/registerApp')
 var { checkUserExists, getUserDevices } = require('../utils/driveUtils');
 const { google } = require('googleapis');
 
-router.get('/', function(req, res, next) {
-});
+router.get('/', function(req, res, next) {});
 
 router.post('/create', function(req, res, next) {
   try {
@@ -14,7 +13,7 @@ router.post('/create', function(req, res, next) {
     async function users(auth) {
       const drive = google.drive({version: 'v3', auth});
       const users = await getUsers(drive);
-      res.json(users)
+      res.status(users.status || 500).json(users)
     }
 
     function getUsers(drive) {
@@ -25,24 +24,20 @@ router.post('/create', function(req, res, next) {
           q: `name = '${email}' and mimeType = 'application/vnd.google-apps.folder'` 
         },
           (userErrors, userResults) => {
-            if (userErrors) {
-              resolve({ status: userErrors.response.status, error: userErrors.errors, url: userErrors.config.url });
+            userErrors && resolve({ status: userErrors.response.status, error: userErrors.errors });
+            if (userResults.data.files.length) {
+              resolve({ status: 300, error: 'Email is already taken!' });
             } else {
-              if (userResults.data.files.length) {
-                resolve({ status: 300, error: 'Email is already taken!' });
-              } else {
-                drive.files.create({
-                  resource: {
-                    'name': email,
-                    'mimeType': 'application/vnd.google-apps.folder'
-                  },
-                  fields: 'id'
-                }, (newuserError) => {
-                      if (newuserError) {
-                        resolve({ status: newuserError.newuserResponse.status, error: newuserError.errors[0], url: newuserError.config.url });
-                      } else resolve({ status: 200 });
-                });
-              }
+              drive.files.create({
+                resource: {
+                  'name': email,
+                  'mimeType': 'application/vnd.google-apps.folder'
+                },
+                fields: 'id'
+              }, (newuserError) => {
+                newuserError && resolve({ status: newuserError.newuserResponse.status, error: newuserError.errors[0] });
+                resolve({ status: 200 });
+              });
             }
           })
       });
@@ -62,8 +57,8 @@ router.post('/devices/new', function(req, res, next) {
       const check = await checkUserExists(drive, userId, email)
       if (check.status === 200) {
         const devices = await getDevices(drive, check.id, email);
-        res.json(devices)
-      } else res.json(check)
+        res.status(devices.status || 500).json(devices)
+      } else res.status(check.status || 500).json(check)
     }
 
     function getDevices(drive, userId) {
@@ -80,7 +75,7 @@ router.post('/devices/new', function(req, res, next) {
           fields: 'id'
         }, (deviceErrors) => {
               if (deviceErrors) {
-                resolve({ status: 500, error: deviceErrors.errors[0].message, url: deviceErrors.config.url });
+                resolve({ status: 500, error: deviceErrors.errors[0].message });
               } else getUserDevices(drive, userId).then(info => resolve(info));
         });
       });
@@ -110,7 +105,7 @@ router.post('/devices/all', function(req, res, next) {
   }
 });
 
-router.post('/devices/tracks', function(req, res, next) {
+router.post('/devices/trackdays', function(req, res, next) {
   try {
     authenticate(users);
 
@@ -119,12 +114,12 @@ router.post('/devices/tracks', function(req, res, next) {
       const { email, userID, name: trackerName } = req.body;
       const check = await checkUserExists(drive, userID, email)
       if (check.status === 200) {
-        const devices = await getTracks(drive, trackerName, userID);
-        res.json(devices)
-      } else res.json(check)
+        const trackDays = await getTrackDays(drive, trackerName, userID);
+        res.status(trackDays.status || 500).json(trackDays)
+      } else res.status(check.status || 500).json(check)
     }
 
-    function getTracks(drive, trackerName, userID) {
+    function getTrackDays(drive, trackerName, userID) {
       return new Promise(resolve => {
         drive.files.list({
           fields: 'files(id, name)', 
@@ -132,7 +127,7 @@ router.post('/devices/tracks', function(req, res, next) {
         },
           (deviceListErrors, deviceListResults) => {
             if (deviceListErrors) {
-              resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors, url: deviceListErrors.config.url });
+              resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors });
             } else {
               if (deviceListResults.data.files.length) {
                 drive.files.list({
@@ -158,5 +153,42 @@ router.post('/devices/tracks', function(req, res, next) {
   }
 });
 
+router.post('/devices/tracks', function(req, res, next) {
+  try {
+    authenticate(users);
+
+    async function users(auth) {
+      const drive = google.drive({version: 'v3', auth});
+      const { email, userID, id } = req.body;
+      const check = await checkUserExists(drive, userID, email)
+      if (check.status === 200) {
+        const tracks = await getTracks(drive, id);
+        res.status(tracks.status || 500).json(tracks)
+      } else res.status(check.status || 500).json(check)
+    }
+
+    function getTracks(drive, trackDayId) {
+      return new Promise(resolve => {
+        drive.files.list({
+          fields: 'files(id, name)', 
+          q: `'${trackDayId}' in parents and mimeType = 'application/vnd.google-apps.file'` 
+        }, (trackFileErrors, trackFiles) => {
+          trackFileErrors && resolve({ status: trackFileErrors.response.status, error: trackFileErrors.errors })
+          trackFiles.data.files.length && resolve({
+            status: 200, 
+            tracks: trackFiles.data.files.map(f => ({ 
+              id: f.id, 
+              date: f.name.split('|')[0], 
+              coords: f.name.split('|')[1] 
+            })) 
+          })
+          resolve({ status: 204, error: 'Failed to retrieve data.'})
+        });
+      });
+    }
+  } catch (e) {
+    next(e) 
+  }
+});
 
 module.exports = router;

@@ -3,15 +3,16 @@ import { connect } from 'react-redux';
 import { startSessionAction } from '../../redux/actions/sessionActions';
 import styled from 'styled-components';
 import { Field, reduxForm } from 'redux-form';
+import { toRegister } from '../../utils/routes/navigators';
 
 const Header = styled.p`padding-left: 2vh;`;
 const Hr = styled.hr`border: 1px solid lightgray;`;
 const Content = styled.div`padding: 0 2vh 2vh 2vh;`;
 const InputDiv = styled.div`padding: 1vh 0 2vh 0;`;
 const Input = styled.input`
-    line-height: 4vmin;
+    line-height: 5vmin;
     padding-left: 1vmin;
-    width: 100%;
+    width: 98%;
 `;
 const Error = styled.small`
     font-size: 2vmin;
@@ -34,6 +35,14 @@ const Form = styled.form`
         width: 100%;
     }
 `;
+const Buttons = styled.div`
+    position: relative;
+`;
+const Button = styled.button`
+    display: inline-block;
+    position: absolute;
+    right: ${props => props.type === 'submit' ? 'auto' : '0'};
+`;
 
 const InputField = ({ input, label, type, disabled, placeholder, meta: { error, touched }}) => (
     <div className="form-item">
@@ -51,7 +60,7 @@ const SignInModal = (props) => {
     return (
         <Form id="sign-in-modal-form" onSubmit={handleSubmit(props.startSession)}>
             <Header>Login to Tracker portal:</Header>
-            <Hr />       
+            <Hr />
             <Content>
                 {warning && <div className="warning">{warning}</div>}
                 {error && typeof error == 'string' && <div className="error">{error}</div>}
@@ -71,15 +80,23 @@ const SignInModal = (props) => {
                     type="password"
                     placeholder="Password"
                 />
-                <button 
-                    disabled={invalid || pristine || submitting} 
-                    type="submit" 
-                >
-                    {loading 
-                        ? 'Loading...'
-                        : 'Login'
-                    }
-                </button>
+                <Buttons>
+                    <Button 
+                        disabled={invalid || pristine || submitting} 
+                        type="submit" 
+                    >
+                        {loading 
+                            ? 'Loading...'
+                            : 'Login'
+                        }
+                    </Button>
+                    <Button 
+                        type="reset"
+                        onClick={() => toRegister()}
+                    >
+                        Register
+                    </Button>
+                </Buttons>
             </Content>
         </Form>
     )

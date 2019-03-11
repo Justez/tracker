@@ -99,9 +99,11 @@ const DeviceForm = ({ handleSubmit, invalid, pristine, submitting, error, loadin
 const validate = ({ trackerID, trackerIP, trackerName }) => ({
     trackerID: (!trackerID && 'Required!') 
         || (trackerID.length > 20 && 'ID is too long!') 
+        || (trackerID.length < 10 && 'ID is too short!') 
         || (trackerID.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     trackerIP: (!trackerIP && 'Required!') 
         || (trackerIP.length > 39 && 'IP is too long!')
+        || (trackerIP.length < 7 && 'IP is too short!')
         || (trackerIP.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     trackerName: (!trackerName && 'Required!')
         || (trackerName.length > 40 && 'Name is too long!') 

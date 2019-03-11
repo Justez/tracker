@@ -24,7 +24,7 @@ function getUserDevicesAction() {
                     info.error && info.status !== 204 && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error))
                     info.status === 404 && setTimeout(() => {
                         info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
-                        dispatch(navigate.toRegister)
+                        // dispatch(navigate.toRegister)
                     }, 2000);
                     info.status === 200 && dispatch(receiveDetails(types.SET_USER_DEVICES, info.devices));
                 })

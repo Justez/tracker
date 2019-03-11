@@ -32,7 +32,7 @@ router.post('/new', function(req, res, next) {
         },
           (sessionErrors, sessionResults) => {
             if (sessionErrors) {
-              resolve({ status: sessionErrors.response.status, error: sessionErrors.errors[0].message, url: sessionErrors.config.url });
+              resolve({ status: sessionErrors.response.status, error: sessionErrors.errors[0].message });
             } else {
               if (sessionResults.data.files.length) {
                 const session = sessionResults.data.files[0];
@@ -44,9 +44,8 @@ router.post('/new', function(req, res, next) {
                   fields: 'id',
                 }, (newSessionError, newSessionResponse) => {
                     if (newSessionError) {
-                      resolve({ status: newSessionError.newSessionResponse.status, error: newSessionError.errors[0], url: newSessionError.config.url });
-                    } else
-                      resolve({ ...data, expiry: today, id: newSessionResponse.data.id, userId: id });
+                      resolve({ status: newSessionError.newSessionResponse.status, error: newSessionError.errors[0] });
+                    } else resolve({ ...data, expiry: today, id: newSessionResponse.data.id, userId: id });
                   })
               }
             }
