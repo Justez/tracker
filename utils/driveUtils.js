@@ -23,7 +23,7 @@ async function checkUserExists(drive, userID, email) {
     drive.files.list({ fields: 'files(id, name)', q: `name contains '${email}' and mimeType = 'application/vnd.google-apps.folder'` }, 
       (err, res) => {
         err && resolve({ status: err.response.status, error: err.errors[0].message });
-        if (res.data.files.length && userID ? res.data.files[0].id === userID : true) {
+        if (res.data.files.length && (userID ? res.data.files[0].id === userID : true)) {
           resolve({ status: 200, id: res.data.files[0].id })
         } else {
           resolve({ status: 404, email, warning: "Please register to use our services!" });

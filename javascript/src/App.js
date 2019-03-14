@@ -10,7 +10,7 @@ import Navigation from './views/layouts/Navigation';
 import Dashboard from './views/Dashboard';
 import Footer from './views/layouts/Footer';
 import Register from './views/Register';
-import { Switch, Route } from 'react-router-dom'
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 class App extends React.Component {
   componentDidMount() {
@@ -26,15 +26,17 @@ class App extends React.Component {
   view = () => {
     return (
       <main>
-        <Switch>
-          <Route exact path={paths.homePath} component={Main}/>
-          <Route path={paths.aboutPath} component={About}/>
-          <Route path={paths.apiPath} component={Api}/>
-          <Route path={paths.dashboardPath} component={Dashboard}/>
-          <Route path={paths.registerPath} component={Register}/>
-          {/* <Route path='/contact-us' component={Contact}/> */}
-          <Route component={Error}/>
-        </Switch>
+        <BrowserRouter>
+          <Switch>
+            <Route exact path={paths.homePath} component={Main}/>
+            <Route path={paths.aboutPath} component={About}/>
+            <Route path={paths.apiPath} component={Api}/>
+            <Route path={paths.dashboardPath} component={Dashboard}/>
+            <Route path={paths.registerPath} component={Register}/>
+            {/* <Route path='/contact-us' component={Contact}/> */}
+            <Route component={Error}/>
+          </Switch>
+        </BrowserRouter>
       </main>
     );
   }

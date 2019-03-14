@@ -5,7 +5,8 @@
   "scripts": {
     "start": "concurrently --kill-others \"node app.js\" \"cd javascript && npm start\"",
     "install-all": "yarn install && yarn install:react",
-    "install:react": "cd javascript && yarn install"
+    "install:react": "cd javascript && yarn install",
+    "test": "jest"
   },
   "dependencies": {
     "compression": "^1.7.3",
@@ -22,6 +23,8 @@
   },
   "devDependencies": {
     "concurrently": "^4.1.0",
-    "jest": "^24.5.0"
+    "jest": "23.6.0",
+    "superagent": "^4.1.0",
+    "supertest": "^4.0.0"
   }
 }

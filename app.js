@@ -6,6 +6,7 @@ var logger = require('morgan');
 var accountsRouter = require('./routes/accounts');
 var sessionsRouter = require('./routes/sessions');
 var devicesRouter = require('./routes/devices');
+var appRouter = require('./routes/app');
 var compression = require('compression');
 var helmet = require('helmet');
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', appRouter);
 app.use('/api/accounts', accountsRouter);
 app.use('/api/sessions', sessionsRouter);
 app.use('/api/devices', devicesRouter);
