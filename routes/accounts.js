@@ -171,18 +171,21 @@ router.post('/devices/tracks', function(req, res, next) {
       return new Promise(resolve => {
         drive.files.list({
           fields: 'files(id, name)', 
-          q: `'${trackDayId}' in parents and mimeType = 'application/vnd.google-apps.file'` 
+          q: `'${trackDayId}' in parents and name contains 'txt'` 
         }, (trackFileErrors, trackFiles) => {
           trackFileErrors && resolve({ status: trackFileErrors.response.status, error: trackFileErrors.errors })
           trackFiles.data.files.length && resolve({
             status: 200, 
-            tracks: trackFiles.data.files.map(f => ({ 
-              id: f.id, 
-              date: f.name.split('|')[0], 
-              coords: f.name.split('|')[1] 
-            })) 
+            tracks: trackFiles.data.files.map(f => {
+              const coords = (f.name.split('|')[1]).split('.txt')[0];
+              return ({ 
+                id: f.id, 
+                date: f.name.split('|')[0], 
+                coords: { lat: coords.split(',')[0], lng: coords.split(',')[1] }
+              })
+            }) 
           })
-          resolve({ status: 204, error: 'Failed to retrieve data.'})
+          resolve({ status: 204, error: 'No data.'})
         });
       });
     }

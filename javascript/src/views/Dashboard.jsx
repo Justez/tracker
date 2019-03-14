@@ -9,6 +9,7 @@ const Wrapper = styled.div`
     padding-top: 12vh;
     min-height: 75vh;
     width: 98%;
+    margin-left: 1vw;
 `;
 const Success = styled.div`color: #25b0fb;`;
 const Error = styled.div`color: red;`;
@@ -63,6 +64,13 @@ class Dashboard extends React.Component {
     
     componentDidMount() {
         this.props.getUserDevices();
+        if (!(window.google && window.google.maps)) {
+            const script = document.createElement('script');
+            const API = 'AIzaSyDbAz1XXxDoKSU2nZXec89rcHPxgkvVoiw';
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${API}&callback=resolveGoogleMapsPromise`;
+            script.async = true;
+            document.body.appendChild(script);
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -101,6 +109,8 @@ class Dashboard extends React.Component {
 
     getTracksByDay = (day) => {
         const { email, userID } = this.props;
+        this.setState({ trackDaySelected: day, loading: true })
+
         fetch('/accounts/devices/tracks', {
             method: 'POST',
             mode: 'cors',
@@ -109,11 +119,12 @@ class Dashboard extends React.Component {
             body: JSON.stringify({ id: day.id, email, userID }),
         })
         .then(response => response.json())
-        .then((info) => {
-            console.log(info)
-        })
-        this.setState({ trackDaySelected: day, loading: true })
+        .then((info) => this.setState({ tracks: info.tracks || [] }))
+        .catch(() => this.setState({ error: 'Failed to retrieve data. Please contact the administrator.', trackDaySelected: undefined }))
+        .finally(() => this.setState({ loading: false }))
     }
+
+    handleChangeDay = () => this.setState({ tracks: undefined, trackDaySelected: undefined })
 
     render() {
         const { active, devices, loading } = this.props;
@@ -147,10 +158,9 @@ class Dashboard extends React.Component {
                         {showDevice &&
                             <DeviceInfo>
                                 {!loadingTracks && !trackDays && <Error>{error}</Error>}
-                                {!loadingTracks && tracks && tracks.length > 0 && <div id="map" />}
                                 {!loadingTracks && trackDays && trackDays.length === 0 && <p>There are no tracking points recorded yet!</p>}
                                 {loadingTracks && trackDaySelected && <p>Loading tracks and opening map...</p>}
-                                {trackDays && !tracks && <div>
+                                {trackDays && <div>
                                     Days recorded: 
                                         {trackDays && trackDays.map(d => 
                                             <Device 
@@ -169,21 +179,22 @@ class Dashboard extends React.Component {
                 </Wrapper>
             )
         } else if (tracks) {
-            return <Map tracks={tracks} trackDays={trackDays} />
-        } else {
             return <Wrapper>
-                <Content>
-                    Your session is not active. Please
-                    {' '}
-                    <Link 
-                        onClick={() => document.getElementById("sign-in-modal").style.display = "block"}
-                        onKeyPress={() => document.getElementById("sign-in-modal").style.display = "block"}
-                    >
-                        LOGIN
-                    </Link>
-                </Content>
-            </Wrapper> 
+                    <Map daySelected={trackDaySelected} tracks={tracks} goBack={this.handleChangeDay} />
+                </Wrapper>
         }
+        return <Wrapper>
+            <Content>
+                Your session is not active. Please
+                {' '}
+                <Link 
+                    onClick={() => document.getElementById("sign-in-modal").style.display = "block"}
+                    onKeyPress={() => document.getElementById("sign-in-modal").style.display = "block"}
+                >
+                    LOGIN
+                </Link>
+            </Content>
+        </Wrapper> 
     }
 }
 

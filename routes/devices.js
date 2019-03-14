@@ -12,7 +12,7 @@ router.get('/:id/:coords', function(req, res, next) { //domain:8081/api/devices/
           const drive = google.drive({version: 'v3', auth});
           const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
           const { id, coords } = req.params;
-          if (/^-{0,1}\d{1,3}\.\d+:{1}-{0,1}\d{1,3}\.\d+$/.test(coords) && id.length >= 10) {
+          if (/^-{0,1}\d{1,3}\.\d+,{1}-{0,1}\d{1,3}\.\d+$/.test(coords) && id.length >= 10) {
             const check = await checkDeviceExists(drive, id, ip)
             if (check.status === 200) {
               // if (check.ip === ip) {
