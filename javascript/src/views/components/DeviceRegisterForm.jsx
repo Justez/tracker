@@ -103,7 +103,7 @@ const validate = ({ trackerID, trackerIP, trackerName }) => ({
         || (trackerID.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     trackerIP: (!trackerIP && 'Required!') 
         || (trackerIP.length > 39 && 'IP is too long!')
-        || (trackerIP.length < 7 && 'IP is too short!')
+        || (trackerIP.length < 3 && 'IP is too short!')
         || (trackerIP.indexOf(' ') + 1 && 'White spaces are not allowed!'),
     trackerName: (!trackerName && 'Required!')
         || (trackerName.length > 40 && 'Name is too long!') 

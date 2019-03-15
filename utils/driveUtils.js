@@ -6,12 +6,12 @@ async function getUserDevices(drive, userId) {
       },
         (deviceListErrors, deviceListResults) => {
           deviceListErrors && resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors });
-          if (deviceListResults.data.files.length) {
+          if (deviceListResults && deviceListResults.data.files.length) {
             resolve({ status: 200, devices: deviceListResults.data.files.map(device => ({
                 id: device.id,
                 name: device.name.split(' ')[0].split(':')[1],
-                ip: device.name.split(' ')[1].split(':')[1],
-              })) 
+                uniqueId: device.name.split(' ')[1].split(':')[1],
+              }))
             });
           } else resolve({ status: 204, error: 'No devices found.'})
         });
@@ -26,7 +26,7 @@ async function checkUserExists(drive, userID, email) {
         if (res.data.files.length && (userID ? res.data.files[0].id === userID : true)) {
           resolve({ status: 200, id: res.data.files[0].id })
         } else {
-          resolve({ status: 404, email, warning: "Please register to use our services!" });
+          resolve({ status: 401, email, warning: "Please register to use our services!" });
         }
       }
     )
@@ -56,7 +56,7 @@ async function createCoordRecord(drive, id, coords) {
       fields: 'id',
     }, (newtrackError, newtrackResponse) => {
       newtrackError && resolve({ status: newtrackError.newtrackResponse.status, message: newtrackError.errors[0] });
-      resolve({ status: newtrackResponse.data.id ? 200 : 500 });
+      resolve({ status: newtrackResponse.data.id ? 200 : 400 });
     })
   });
 }

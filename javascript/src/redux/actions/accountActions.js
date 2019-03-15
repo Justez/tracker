@@ -22,7 +22,7 @@ function getUserDevicesAction() {
                     dispatch(receiveDetails(types.SET_TRANSACTION_STATUS, info.status))
                     dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
                     info.error && info.status !== 204 && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error))
-                    info.status === 404 && setTimeout(() => {
+                    info.status === 401 && setTimeout(() => {
                         info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
                         // dispatch(navigate.toRegister)
                     }, 2000);
@@ -53,7 +53,7 @@ function registerDeviceAction() {
                 response.json().then((info) => {
                     dispatch(receiveDetails(types.SET_TRANSACTION_STATUS, info.status))
                     info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error || 'Unable to create device account'))
-                    info.status === 404 && setTimeout(() => {
+                    info.status === 401 && setTimeout(() => {
                         info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
                         dispatch(navigate.toRegister)
                     }, 2000);

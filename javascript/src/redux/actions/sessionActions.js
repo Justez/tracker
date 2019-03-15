@@ -24,12 +24,12 @@ function startSessionAction() {
                     dispatch(receiveDetails(types.SET_USER_EMAIL, info.email));
                     dispatch(receiveDetails(types.SET_USER_ID, info.userId));
                     dispatch(receiveDetails(types.SET_SESSION_STATUS, info.status === 200));
-                    info.status !== 404 && dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
+                    info.status !== 401 && dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
                     info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
                     info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, info.error))
                     if (info.status === 200)
                         dispatch(navigate.toDashboard);
-                    if (info.status === 404) {
+                    if (info.status === 401) {
                         setTimeout(() => {
                             dispatch(navigate.toRegister)
                             info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, ''))
