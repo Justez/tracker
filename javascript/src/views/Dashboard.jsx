@@ -193,7 +193,7 @@ class Dashboard extends React.Component {
             )
         } else if (tracks) {
             return <Wrapper>
-                    <Map daySelected={trackDaySelected} tracks={tracks} goBack={this.handleChangeDay} />
+                    <Map device={showDevice} daySelected={trackDaySelected} tracks={tracks} goBack={this.handleChangeDay} />
                 </Wrapper>
         }
         return <Wrapper>
