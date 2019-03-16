@@ -32,7 +32,7 @@ function getUserDevicesAction() {
             err => dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, err))
         )
         .finally(() => 
-            dispatch(receiveDetails(types.SET_USER_DATA_LOADING, false))
+            setTimeout(() => dispatch(receiveDetails(types.SET_USER_DATA_LOADING, false)), 100)
         );
   }
 }

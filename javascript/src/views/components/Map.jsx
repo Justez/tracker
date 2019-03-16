@@ -27,7 +27,7 @@ const Link = styled.button`
 
 const markerContent = (track) => `
     <span style={{ background-color: 'white' }}>
-        ${track.date.replace('T', ' ').replace('Z', '').split('.')[0]}
+        ${track.date.split('T')[1].replace('Z', '').split('.')[0]}
     </span>
 `;
 
@@ -45,22 +45,25 @@ class MapContainer extends React.Component {
             if (tracks.length && !this.map) {
                 this.map = new window.google.maps.Map(document.getElementById('map'), {
                     center: { lat: +tracks[0].coords.lat, lng: +tracks[0].coords.lng },
-                    zoom: 11,
+                    zoom: 17,
                 });
 
+                var trackPath = new window.google.maps.Polyline({
+                    path: tracks.map(t => ({ lat: +t.coords.lat, lng: +t.coords.lng })),
+                    geodesic: true,
+                    strokeColor: '#25b0fb',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2
+                });
+        
+                trackPath.setMap(this.map);
+
                 tracks.forEach(t => {
-                    var infowindow = new window.google.maps.InfoWindow({
+                    const marker = new window.google.maps.InfoWindow({
+                        position: { lat: +t.coords.lat, lng: +t.coords.lng },
                         content: markerContent(t)
                     });
-              
-                    const marker = new window.google.maps.Marker({
-                        position: { lat: +t.coords.lat, lng: +t.coords.lng },
-                        map: this.map,
-                        title: t.date
-                    });
-                    marker.addListener('click', function() {
-                        infowindow.open(this.map, marker);
-                    });
+                    marker.setMap(this.map);
                 });
             }
         }

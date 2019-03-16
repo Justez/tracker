@@ -142,6 +142,7 @@ class Dashboard extends React.Component {
     render() {
         const { active, devices, loading } = this.props;
         const { showForm, showDevice, tracks, error, trackDays, loading: loadingTracks, trackDaySelected } = this.state;
+
         const Devices = styled.div`
             padding: 1vh 1vh 1vh 1vh;
             min-width: ${devices.length ? '40%' : '80%'}
