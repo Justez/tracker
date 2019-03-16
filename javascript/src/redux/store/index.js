@@ -11,7 +11,8 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistConfig = {
     key: 'tracker',
     storage: storage,
-    // blacklist: ['session', 'form'],
+    whitelist: ['session'],
+    blacklist: ['account', 'form'],
     stateReconciler: autoMergeLevel2,
 };
 

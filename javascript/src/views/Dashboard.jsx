@@ -87,7 +87,7 @@ class Dashboard extends React.Component {
             error: '',
             tracks: undefined, 
             trackDaySelected: undefined, 
-            trackDays: undefined 
+            trackDays: [] 
         });
         const { email, userID } = this.props;
 
@@ -163,7 +163,9 @@ class Dashboard extends React.Component {
                                 </Device>
                             )}
                             {!loading && devices && devices.length > 0 && devices.length < 10 &&
-                                <Device onClick={() => this.setState({ showForm: true, showDevice: undefined })}>Add new device</Device>
+                                <Device onClick={() => this.setState({ showForm: true, showDevice: undefined })}>
+                                    Add new device
+                                </Device>
                             }
                             {!loading && devices && devices.length === 0 && <DeviceForm />}
                         </Devices>
@@ -173,14 +175,14 @@ class Dashboard extends React.Component {
                                 {!loadingTracks && <Error>{error}</Error>}
                                 {!loadingTracks && trackDays && trackDays.length === 0 && <p>There are no tracking points recorded yet!</p>}
                                 {loadingTracks && trackDaySelected && <p>Loading tracks and opening map...</p>}
-                                {trackDays && <div>
+                                {trackDays.length > 0 && <div>
                                     Days recorded: 
                                         {trackDays && trackDays.map(d => 
-                                            <Device 
+                                            <Device
                                                 key={d.id} 
                                                 onClick={() => !loadingTracks && this.getTracksByDay(d)}
                                             >
-                                                    {d.name}
+                                                {d.name}
                                             </Device>
                                         )}
                                     </div>
@@ -211,7 +213,7 @@ class Dashboard extends React.Component {
     }
 }
 
-const mapStateToProps = ({ 
+const mapStateToProps = ({
     session: { active, email, userID }, 
     account: { devices, loading, status }
 }) => ({ active, email, userID, devices, loading, status });    

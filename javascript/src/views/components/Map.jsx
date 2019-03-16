@@ -3,13 +3,11 @@ import XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import styled from 'styled-components';
 
-// const Success = styled.div`color: #25b0fb;`;
 const Error = styled.div`color: red;`;
 const Title = styled.h2`
     margin: 0 0 2vh 2vw;
     font-size: 4vmin;
     text-align: left;
-
 `;
 const Map = styled.div`
     border: 1px solid white;
@@ -69,9 +67,19 @@ class MapContainer extends React.Component {
     }
 
     export = () => {
+        function s2ab(s) {
+            const buf = new ArrayBuffer(s.length);
+            const view = new Uint8Array(buf);
+            for (let i = 0; i < s.length; i++) {
+                view[i] = s.charCodeAt(i) & 0xFF
+            };
+            return buf;
+        }
+        
         const { daySelected, device, tracks } = this.props;
-        this.setState({ loading: true })
+        this.setState({ loading: true });
         const wb = XLSX.utils.book_new();
+
         wb.Props = {
             Title: `${device.name}`,
             Subject: `Track data for ${device.name}`,
@@ -84,13 +92,8 @@ class MapContainer extends React.Component {
         const data = [['Date', 'Lat', 'Lng']];
         tracks.forEach(t => data.push([t.date, t.coords.lat, t.coords.lng]));
         wb.Sheets["1 Sheet"] = XLSX.utils.aoa_to_sheet(data);
-        const wbout = XLSX.write(wb, { bookType:'xlsx',  type: 'binary' });
-        function s2ab(s) {
-            const buf = new ArrayBuffer(s.length);
-            const view = new Uint8Array(buf);
-            for (let i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
-            return buf;
-        }
+        const wbout = XLSX.write(wb, { bookType:'xlsx', type: 'binary' });
+        
         saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), `${device.name} ${daySelected.name}.xlsx`);
         this.setState({ loading: false })
     }
@@ -108,7 +111,7 @@ class MapContainer extends React.Component {
                 <Error>{error}</Error>
             </Title>
             <Map id="map"></Map>
-        </div>
+        </div>;
     }
 }
 

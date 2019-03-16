@@ -4,7 +4,7 @@ var authenticate = require('../utils/registerApp')
 const { google } = require('googleapis');
 var { checkDeviceExists, createCoordRecord } = require('../utils/driveUtils');
 
-router.get('/:id/:coords', function(req, res, next) { //domain:8081/api/devices/:id/:coordinates * 4 ex. "54.5641231:65.986532"
+router.get('/:id/:coords', function(req, res, next) { //domain:8081/api/devices/:id/:coordinates * 4 ex. "54.5641231,65.986532"
     try {
         authenticate(saveCoords);
     
@@ -17,12 +17,12 @@ router.get('/:id/:coords', function(req, res, next) { //domain:8081/api/devices/
             if (check.status === 200) {
               // if (check.ip === ip) {
                 const save = await saveLocation(drive, check.id, coords);
-                res.status(save.status || 500).json(save);
+                res.status(save.status || 400).json(save);
               // } else res.status(400).json({ message: `Forbidden from IP ${ip}.` });
               // todo send email to set new ip
-            } else res.status(check.status || 500).json(check)
+            } else res.status(check.status || 400).json(check)
           } else {
-            res.status(500).json({ message: 'Details not valid!' })
+            res.status(400).json({ message: 'Details not valid!' })
           }
         }
     
