@@ -184,17 +184,21 @@ router.post('/devices/tracks', function(req, res, next) {
           q: `'${trackDayId}' in parents and name contains 'txt'` 
         }, (trackFileErrors, trackFiles) => {
           trackFileErrors && resolve({ status: trackFileErrors.response.status, error: trackFileErrors.errors })
-          trackFiles.data.files.length && resolve({
-            status: 200, 
-            tracks: trackFiles.data.files.map(f => {
-              const coords = (f.name.split('|')[1]).split('.txt')[0];
-              return ({ 
-                id: f.id, 
-                date: f.name.split('|')[0], 
-                coords: { lat: coords.split(',')[0], lng: coords.split(',')[1] }
-              })
-            }) 
-          })
+          try {
+            trackFiles.data.files.length && resolve({
+              status: 200, 
+              tracks: trackFiles.data.files.map(f => {
+                const coords = (f.name.split('|')[1]).split('.txt')[0];
+                return ({ 
+                  id: f.id, 
+                  date: f.name.split('|')[0], 
+                  coords: { lat: coords.split(',')[0], lng: coords.split(',')[1] }
+                })
+              }) 
+            })
+          } catch (e) {
+            resolve({ status: 500, error: 'Data provided was incorrect. Please check you tracker settings to respond documentation of our API.' })
+          }
           resolve({ status: 204, error: 'No data.'})
         });
       });

@@ -109,7 +109,7 @@ class Dashboard extends React.Component {
 
     getTracksByDay = (day) => {
         const { email, userID } = this.props;
-        this.setState({ trackDaySelected: day, loading: true })
+        this.setState({ trackDaySelected: day, loading: true, error: '' })
 
         fetch('/accounts/devices/tracks', {
             method: 'POST',
@@ -119,8 +119,21 @@ class Dashboard extends React.Component {
             body: JSON.stringify({ id: day.id, email, userID }),
         })
         .then(response => response.json())
-        .then((info) => this.setState({ tracks: info.tracks || [] }))
-        .catch(() => this.setState({ error: 'Failed to retrieve data. Please contact the administrator.', trackDaySelected: undefined }))
+        .then((info) => {
+            if (info.status === 200) {
+                this.setState({ tracks: info.tracks || [] })
+            } else
+                this.setState({ 
+                    error: info.error || 'Failed to retrieve data. Please contact the administrator.', 
+                    trackDaySelected: undefined, 
+                    tracks: undefined,
+                })
+        })
+        .catch((err) => this.setState({ 
+            error: err.error || 'Failed to retrieve data. Please contact the administrator.', 
+            trackDaySelected: undefined, 
+            tracks: undefined,
+        }))
         .finally(() => this.setState({ loading: false }))
     }
 
@@ -157,7 +170,7 @@ class Dashboard extends React.Component {
                         {showForm && <DeviceForm closeForm={() => this.setState({ showForm: false })}/>}
                         {showDevice &&
                             <DeviceInfo>
-                                {!loadingTracks && !trackDays && <Error>{error}</Error>}
+                                {!loadingTracks && <Error>{error}</Error>}
                                 {!loadingTracks && trackDays && trackDays.length === 0 && <p>There are no tracking points recorded yet!</p>}
                                 {loadingTracks && trackDaySelected && <p>Loading tracks and opening map...</p>}
                                 {trackDays && <div>
@@ -174,7 +187,7 @@ class Dashboard extends React.Component {
                                 }
                                 {loadingTracks && !trackDays && <div>Loading days recorded...</div>}
                             </DeviceInfo>
-                        }   
+                        }
                     </Content>
                 </Wrapper>
             )
