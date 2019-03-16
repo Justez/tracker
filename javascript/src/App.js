@@ -5,6 +5,7 @@ import { endSessionAction } from './redux/actions/sessionActions'
 import Main from './views/Main';
 import About from './views/About';
 import Api from './views/Api';
+import Contact from './views/Contact';
 import Error from './views/Error';
 import Navigation from './views/layouts/Navigation';
 import Dashboard from './views/Dashboard';
@@ -33,7 +34,7 @@ class App extends React.Component {
             <Route path={paths.apiPath} component={Api}/>
             <Route path={paths.dashboardPath} component={Dashboard}/>
             <Route path={paths.registerPath} component={Register}/>
-            {/* <Route path='/contact-us' component={Contact}/> */}
+            <Route path={paths.contactPath} component={Contact}/>
             <Route component={Error}/>
           </Switch>
         </BrowserRouter>

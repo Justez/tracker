@@ -1,24 +1,11 @@
 import React from 'react';
 
-class ErrorMessage extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        <p>
-          Error
-        </p>
-        <p>
-          Error
-        </p>
-        <p>
-          Error
-        </p>
-        <p>
-          Error
-        </p>
-      </div>
-    );
-  }
-}
+const ErrorMessage = () => (
+  <div className="container">
+    <p>
+      404
+    </p>
+  </div>
+)
 
 export default ErrorMessage;
