@@ -1,0 +1,31 @@
+version: "2"
+
+services:
+    server:
+        image: webapp-server
+        restart: always
+        ports:
+            - "8081:8081"
+        volumes:
+            - ./server:/server
+            - /server/node_modules
+        # depends_on:
+            # - mongodb
+        networks:
+            - webappnetwork
+            
+    client:
+        image: webapp-client
+        restart: always
+        ports:
+            - "3000:3000"
+        volumes:
+            - ./client:/client
+            - /client/node_modules
+        links:
+            - server
+        networks:
+            - webappnetwork
+networks:
+    webappnetwork:
+        driver: bridge

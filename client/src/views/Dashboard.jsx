@@ -74,7 +74,7 @@ class Dashboard extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps.devices.length < this.props.devices.length) {
+        if (!this.state.showForm && prevProps.devices.length < this.props.devices.length) {
             this.setState({ showForm: false })
         }
     }

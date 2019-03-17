@@ -4,13 +4,13 @@ import { registerPath, sourcePath } from '../utils/routes/paths'
 
 class Main extends React.Component {
   componentDidMount() {
-    // const width = document.getElementById('root').clientWidth;
+    const width = document.getElementById('root').clientWidth;
     document.getElementsByClassName('nav')[0].classList.remove("dark")
-    // if (width > 1000) {
+    if (width > 1000) {
       this.addScrollListener(150);
-    // } else {
+    } else {
       this.addScrollListener(400, 'scroll-up', 'active');
-    // }
+    }
   }
 
   addScrollListener = (boundary = 100, className = "nav", classChange = "dark") => {
