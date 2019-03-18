@@ -19,7 +19,7 @@ describe('Test sessions start path', () => {
 
     test('New path with non existent email returns error', (done) => {
         request(app).post(sessionsBaseUrl + '/new')
-        .send({ email: 'notagoodemail '})
+        .send({ email: 'notagoodemail'})
         .then(response => {
             expect(response.status).toBe(401); 
             expect(response.body.warning).toBe('Please register to use our services!');

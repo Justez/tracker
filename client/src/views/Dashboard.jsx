@@ -91,7 +91,7 @@ class Dashboard extends React.Component {
         });
         const { email, userID } = this.props;
 
-        fetch('/accounts/devices/trackdays', {
+        fetch('/devices/trackdays', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
@@ -111,7 +111,7 @@ class Dashboard extends React.Component {
         const { email, userID } = this.props;
         this.setState({ trackDaySelected: day, loading: true, error: '' })
 
-        fetch('/accounts/devices/tracks', {
+        fetch('/devices/tracks', {
             method: 'POST',
             mode: 'cors',
             credentials: 'include',
