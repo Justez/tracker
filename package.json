@@ -1,15 +1,18 @@
 {
-    "name": "tracker",
-    "version": "0.1.0",
-    "private": true,
-    "scripts": {
-      "start": "concurrently --kill-others \"cd server && node app.js\" \"cd client && npm start\"",
-      "server": "cd server && node app.js",
-      "client": "cd client && npm start",
-      "install-all": "yarn install:server && yarn install:client",
-      "install:server": "cd server && yarn install",
-      "install:client": "cd client && yarn install",
-      "test": "jest"
-    }
+  "name": "tracker",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "concurrently --kill-others \"cd server && node app.js\" \"cd client && npm start\"",
+    "server": "cd server && node app.js",
+    "client": "cd client && npm start",
+    "install-all": "yarn install:server && yarn install:client",
+    "install:server": "cd server && yarn install",
+    "install:client": "cd client && yarn install",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "23.x.x",
+    "supertest": "^4.0.2"
   }
-  
+}

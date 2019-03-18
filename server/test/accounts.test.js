@@ -5,13 +5,13 @@ const baseUrl = "/api/accounts";
 const email = `test${Math.random()}@test.test`;
 
 describe('Test accounts create path', () => {
-//     test('Create path with no params returns error', (done) => {
-//         request(app).post(baseUrl + '/create')
-//         .catch((err) => {
-//             expect(err.status).toBe(400);
-//             done();
-//         });
-//     });
+    test('Create path with no params returns error', (done) => {
+        request(app).post(baseUrl + '/create')
+        .catch((err) => {
+            expect(err.status).toBe(400);
+            done();
+        });
+    });
 
 //     test('Create path with email returns response', (done) => {
 //         request(app).post(baseUrl + '/create')
