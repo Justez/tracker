@@ -14,7 +14,7 @@ router.post('/create', function(req, res, next) {
       if (email) {
         const users = await getUsers(drive, email);
         res.status(users.status || 400).json(users);
-      } else res.status(400).json({});
+      } else res.sendStatus(400);
     }
 
     function getUsers(drive, email) {
@@ -56,12 +56,15 @@ router.post('/devices/new', function(req, res, next) {
       const { email, userId, device } = req.body;
 
       if (device && device.trackerID && device.trackerIP && device.trackerName) {
-        const check = await checkUserExists(drive, userId, email);
-        if (check.status === 200) {
-          const devices = await getDevices(drive, check.id, device);
-          res.status(devices.status || 400).json(devices)
-        } else res.status(check.status || 400).json(check)
-      } else res.status(400).json({});
+        const name = `name:${device.trackerName} ID:${device.trackerID} IP:${device.trackerIP}`;
+        if (name.match('(name:).{1,40}(ID:).{10,20}(IP:).{3,39}$').length) {
+          const check = await checkUserExists(drive, userId, email);
+          if (check.status === 200) {
+            const devices = await getDevices(drive, check.id, device);
+            res.status(devices.status || 400).json(devices)
+          } else res.status(check.status || 400).json(check)
+        } else res.sendStatus(400);
+      } else res.sendStatus(400);
     }
 
     async function getDevices(drive, userId, device) {

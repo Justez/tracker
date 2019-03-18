@@ -6,7 +6,7 @@ async function getUserDevices(drive, userId) {
       },
         (deviceListErrors, deviceListResults) => {
           deviceListErrors && resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors });
-          const devices = deviceListResults && deviceListResults.data.files.filter(d => d.name.match('(name:).{1,40}(ID:).{10,20}(IP:).{3,39}')) || [];
+          const devices = deviceListResults && deviceListResults.data.files.filter(d => d.name.match('name:.{1,40}ID:.{10,20}IP:.{3,39}')) || [];
           if (devices.length) {
             resolve({ status: 200, devices: devices.map(device => ({
                 id: device.id,
