@@ -6,6 +6,8 @@
     "start": "concurrently --kill-others \"cd server && node app.js\" \"cd client && npm start\"",
     "server": "cd server && node app.js",
     "client": "cd client && npm start",
+    "install": "cd client && npm install",
+    "build": "cd client && npm build",
     "install-all": "yarn install:server && yarn install:client",
     "install:server": "cd server && yarn install",
     "install:client": "cd client && yarn install",
