@@ -6,7 +6,7 @@ async function getUserDevices(drive, userId) {
       },
         (deviceListErrors, deviceListResults) => {
           deviceListErrors && resolve({ status: deviceListErrors.response.status, error: deviceListErrors.errors });
-          const devices = deviceListResults && deviceListResults.data.files.filter(d => d.name.match('(name:).{1,40}(ID:).{10,20}(IP:).{3,39}')) || [];
+          const devices = deviceListResults && deviceListResults.data.files.filter(d => d.name.match('name:.{1,40}ID:.{10,20}IP:.{3,39}')) || [];
           if (devices.length) {
             resolve({ status: 200, devices: devices.map(device => ({
                 id: device.id,
@@ -21,16 +21,18 @@ async function getUserDevices(drive, userId) {
 
 async function checkUserExists(drive, userID, email) {
   return await new Promise(resolve => {
-    drive.files.list({ fields: 'files(id, name)', q: `name contains '${email}' and mimeType = 'application/vnd.google-apps.folder'` }, 
-      (err, res) => {
-        err && resolve({ status: err.response.status, error: err.errors[0].message });
-        if (res.data.files.length && (userID ? res.data.files[0].id === userID : true)) {
-          resolve({ status: 200, id: res.data.files[0].id })
-        } else {
-          resolve({ status: 401, email, warning: "Please register to use our services!" });
+    if (email) {
+      drive.files.list({ fields: 'files(id, name)', q: `name contains '${email}' and mimeType = 'application/vnd.google-apps.folder'` }, 
+        (err, res) => {
+          err && resolve({ status: err.response.status, error: err.errors[0].message });
+          if (res.data.files.length && (userID ? res.data.files[0].id === userID : true)) {
+            resolve({ status: 200, id: res.data.files[0].id })
+          } else {
+            resolve({ status: 401, email, warning: "Please register to use our services!" });
+          }
         }
-      }
-    )
+      )
+    } else resolve({ status: 400 })
   })
 }
 

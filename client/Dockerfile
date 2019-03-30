@@ -1,15 +1,15 @@
 FROM node:8
 # Set the working directory to /client
-WORKDIR /javascript
+WORKDIR /client
 
-# copy package.json into the container at /javascript
-COPY package*.json /javascript/
+# copy package.json into the container at /client
+COPY package*.json /client/
 
 # install dependencies
 RUN npm install
 
-# Copy the current directory contents into the container at /javascript
-COPY . /javascript/
+# Copy the current directory contents into the container at /client
+COPY . /client/
 
 # Make port 3000 available to the world outside this container
 EXPOSE 3000

@@ -12,7 +12,7 @@ const persistConfig = {
     key: 'tracker',
     storage: storage,
     whitelist: ['session'],
-    blacklist: ['account', 'form'],
+    // blacklist: ['account', 'form'],
     stateReconciler: autoMergeLevel2,
 };
 

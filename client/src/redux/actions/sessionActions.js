@@ -18,13 +18,13 @@ function startSessionAction() {
 
         return request.then(
             response => {
-                response.json().then((info) => {
+                response.json()
+                .then((info) => {
                     dispatch(receiveDetails(types.ADD_SESSION_ID, info.id));
                     dispatch(receiveDetails(types.SET_SESSION_EXPIRY, info.expiry));
                     dispatch(receiveDetails(types.SET_USER_EMAIL, info.email));
                     dispatch(receiveDetails(types.SET_USER_ID, info.userId));
                     dispatch(receiveDetails(types.SET_SESSION_STATUS, info.status === 200));
-                    info.status !== 401 && dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
                     info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
                     info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, info.error))
                     if (info.status === 200)
@@ -34,17 +34,14 @@ function startSessionAction() {
                             dispatch(navigate.toRegister)
                             info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, ''))
                             info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, ''))
-                            dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
                         }, 1500);
                     }
                 })
             }, 
-            err => {
-                dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, err))
-                dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
-            },
+            err => dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, err)),
         )
-  }
+        .finally(() => setTimeout(() => dispatch(receiveDetails(types.SET_SESSION_LOADING, false)), 0));
+    }
 } 
 
 function endSessionAction() {
