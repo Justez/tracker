@@ -64,9 +64,22 @@ async function createCoordRecord(drive, id, coords) {
   });
 }
 
+async function deleteUserDevice(drive, id) {
+  return await new Promise(resolve => {
+    drive.files.delete({
+      'fileId': userResults.data.files[0].id
+    }, (err) => {
+      err && resolve({ status: err && err.status, error: 'Failed to delete device. Please contact administrator.' })
+      resolve({ status: 200 });
+    });
+  });
+}
+
+
 module.exports = {
   checkDeviceExists,
   createCoordRecord,
   getUserDevices,
+  deleteUserDevice,
   checkUserExists
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getUserDevicesAction } from '../redux/actions/accountActions';
+import { getUserDevicesAction, deleteDeviceAction } from '../redux/actions/accountActions';
 import DeviceForm from './components/DeviceRegisterForm';
 import styled from 'styled-components';
 import Map from './components/Map';
@@ -139,8 +139,21 @@ class Dashboard extends React.Component {
 
     handleChangeDay = () => this.setState({ tracks: undefined, trackDaySelected: undefined })
 
+    handleDeleteDevice = () => {
+        const { showDevice } = this.state;
+
+        this.setState({
+            showDevice: undefined,
+            tracks: undefined,
+            trackDaySelected: undefined,
+            trackDays: undefined,
+        });
+
+        this.props.deleteDevice(showDevice);
+    }
+
     render() {
-        const { active, devices, loading } = this.props;
+        const { active, devices, loading, error: deleteError } = this.props;
         const { showForm, showDevice, tracks, error, trackDays, loading: loadingTracks, trackDaySelected } = this.state;
 
         const Devices = styled.div`
@@ -157,7 +170,9 @@ class Dashboard extends React.Component {
                     </Title>
                     <Content>
                         <Devices>
-                            {loading && 'Loading account...'}
+                            {loading && !devices.length && 'Loading account...'}
+                            {loading && devices.length > 0 && 'Processing request...'}
+                            {!loading && deleteError && <Error>{deleteError}</Error>}   
                             {!loading && devices && devices.length > 0 && devices.map(d => 
                                 <Device key={d.id} onClick={() => !loading && showDevice ? showDevice.id !== d.id : true && this.openDevice(d)}>
                                     {showDevice && showDevice.id === d.id ? <Success>{d.name}</Success> : d.name}
@@ -174,6 +189,7 @@ class Dashboard extends React.Component {
                         {showDevice &&
                             <DeviceInfo>
                                 {!loadingTracks && <Error>{error}</Error>}
+                                {loadingTracks && !trackDays.length && <p>Loading days recorded...</p>}
                                 {!loadingTracks && trackDays && trackDays.length === 0 && <p>There are no tracking points recorded yet!</p>}
                                 {loadingTracks && trackDaySelected && <p>Loading tracks and opening map...</p>}
                                 {trackDays.length > 0 && <div>
@@ -188,7 +204,9 @@ class Dashboard extends React.Component {
                                         )}
                                     </div>
                                 }
-                                {loadingTracks && !trackDays && <div>Loading days recorded...</div>}
+                                <Device onClick={this.handleDeleteDevice}>
+                                    Delete device
+                                </Device>
                             </DeviceInfo>
                         }
                     </Content>
@@ -216,11 +234,12 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = ({
     session: { active, email, userID }, 
-    account: { devices, loading, status }
-}) => ({ active, email, userID, devices, loading, status });    
+    account: { devices, loading, status, error }
+}) => ({ active, email, userID, devices, loading, status, error });    
 
 const mapDispatchToProps = (dispatch) => ({
     getUserDevices: () => dispatch(getUserDevicesAction()),
+    deleteDevice: (device) => dispatch(deleteDeviceAction(device)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

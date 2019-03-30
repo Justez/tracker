@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var authenticate = require('../utils/registerApp')
-var { checkUserExists, getUserDevices } = require('../utils/driveUtils');
+var { checkUserExists, getUserDevices, deleteUserDevice } = require('../utils/driveUtils');
 const { google } = require('googleapis');
 
 router.post('/create', function(req, res, next) {
@@ -141,9 +141,30 @@ router.post('/devices/all', function(req, res, next) {
       const check = await checkUserExists(drive, id, email)
       if (check.status === 200) {
         const devices = await new Promise(resolve => 
-          getUserDevices(drive, id).then(info => resolve(info)));
-        res.json(devices)
-      } else res.status(check.status).json(check)
+            getUserDevices(drive, id).then(info => resolve(info))
+          );
+        res.status(devices.status).json(devices);
+      } else res.status(check.status).json(check);
+    }
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.delete('/devices/delete', function(req, res, next) {
+  try {
+    authenticate(users);
+
+    async function users(auth) {
+      const { email, device, id } = req.body;
+      const drive = google.drive({version: 'v3', auth});
+      const check = await checkUserExists(drive, id, email)
+      if (check.status == 200 && device.id) {
+        const request = await new Promise(resolve => 
+            deleteUserDevice(drive, device.id).then(info => resolve(info))
+          );
+        res.status(request.status).json(request);
+      } else res.status(check.status).json(check);
     }
   } catch (e) {
     next(e);

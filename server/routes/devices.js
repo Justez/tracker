@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var authenticate = require('../utils/registerApp')
 const { google } = require('googleapis');
-var { checkDeviceExists, createCoordRecord } = require('../utils/driveUtils');
+var { checkDeviceExists, checkUserExists, createCoordRecord } = require('../utils/driveUtils');
 
 router.get('/:id/:coords', function(req, res, next) { //domain:8081/api/devices/:id/:coordinates * 4 ex. "54.5641231,65.986532"
     try {

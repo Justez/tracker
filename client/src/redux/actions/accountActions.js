@@ -68,13 +68,43 @@ function registerDeviceAction() {
     }
 }
 
-function getUserDataAction() {
+function deleteDeviceAction(device) {
     return function action(dispatch, getState) {
-  }
-} 
+        dispatch(receiveDetails(types.SET_USER_DATA_LOADING, true));
+        const request = fetch('/accounts/devices/delete', {
+            method: 'DELETE',
+            mode: 'cors',
+            credentials: 'include',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ device, email: getState().session.email, id: getState().session.userID }),
+        });
+
+        return request.then(
+            response => {
+                response.json().then((info) => {
+                    info.status === 200 && 
+                    dispatch(
+                        receiveDetails(
+                            types.SET_USER_DEVICES, 
+                            getState().account.devices.filter(d => d.id !== device.id)
+                        )
+                    );
+                    info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error || 'Unable to delete device.'))
+                    info.error && setTimeout(() => {
+                        dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
+                    }, 4000);
+                })
+            }, 
+            err => dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, err))
+        )
+        .finally(() => 
+            dispatch(receiveDetails(types.SET_USER_DATA_LOADING, false))
+        );
+    }
+}
 
 export {
-    getUserDataAction,
     getUserDevicesAction,
     registerDeviceAction,
+    deleteDeviceAction,
 };
