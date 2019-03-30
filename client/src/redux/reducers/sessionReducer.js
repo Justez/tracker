@@ -21,6 +21,8 @@ export default function session(state = initialState.session, action) {
       return newState('error');
     case sessionActions.SET_SESSION_WARNING:
       return newState('warning');
+    case sessionActions.SET_SESSION_VIEW: 
+      return newState('view');
     default:
       return state;
   }

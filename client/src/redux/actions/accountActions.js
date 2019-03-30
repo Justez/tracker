@@ -1,5 +1,6 @@
 import * as types from './accountActionTypes';
-import * as navigate from '../../utils/routes/navigators'
+import * as path from '../../utils/routes/paths';
+import { registerViewAction } from './sessionActions';
 
 function receiveDetails(type, payload) {
   return { type, payload };
@@ -55,7 +56,7 @@ function registerDeviceAction() {
                     info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, info.error || 'Unable to create device account'))
                     info.status === 401 && setTimeout(() => {
                         info.error && dispatch(receiveDetails(types.SET_TRANSACTION_ERROR, ''))
-                        dispatch(navigate.toRegister)
+                        dispatch(registerViewAction(path.registerPath))
                     }, 2000);
                     info.status === 200 && dispatch(receiveDetails(types.SET_USER_DEVICES, info.devices));
                 })

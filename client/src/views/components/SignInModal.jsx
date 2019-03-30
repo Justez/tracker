@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { startSessionAction } from '../../redux/actions/sessionActions';
+import { registerViewAction, startSessionAction } from '../../redux/actions/sessionActions';
 import styled from 'styled-components';
 import { Field, reduxForm } from 'redux-form';
-import { toRegister } from '../../utils/routes/navigators';
+import * as path from '../../utils/routes/paths';
 
 const Header = styled.p`padding-left: 2vh;`;
 const Hr = styled.hr`border: 1px solid lightgray;`;
@@ -92,7 +92,7 @@ const SignInModal = (props) => {
                     </Button>
                     <Button 
                         type="reset"
-                        onClick={() => toRegister()}
+                        onClick={() => this.props.registerView(path.registerPath)}
                     >
                         Register
                     </Button>
@@ -107,7 +107,8 @@ const mapStateToProps = ({ session: { id, active, loading, warning, error }}) =>
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    startSession: () => dispatch(startSessionAction())
+    startSession: () => dispatch(startSessionAction()),
+    registerView: (name) => dispatch(registerViewAction(name)),
 });
 
 const form = connect(mapStateToProps, mapDispatchToProps)(SignInModal);

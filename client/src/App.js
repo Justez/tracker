@@ -1,17 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as paths from './utils/routes/paths'
-import { endSessionAction } from './redux/actions/sessionActions'
+import { endSessionAction, registerViewAction } from './redux/actions/sessionActions'
 import Main from './views/Main';
 import About from './views/About';
 import Api from './views/Api';
 import Contact from './views/Contact';
-import Error from './views/Error';
+// import Error from './views/Error';
 import Navigation from './views/layouts/Navigation';
 import Dashboard from './views/Dashboard';
 import Footer from './views/layouts/Footer';
 import Register from './views/Register';
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 class App extends React.Component {
   componentDidMount() {
@@ -22,22 +21,20 @@ class App extends React.Component {
     
     const main = document.getElementsByTagName('main')[0];
     main.addEventListener('click', () => document.getElementsByClassName('menu')[0].classList.remove("active"));
+    this.props.registerView('main');
   }
 
   view = () => {
+    const { view } = this.props;
+    console.log(view)
     return (
       <main>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path={paths.homePath} component={Main}/>
-            <Route path={paths.aboutPath} component={About}/>
-            <Route path={paths.apiPath} component={Api}/>
-            <Route path={paths.dashboardPath} component={Dashboard}/>
-            <Route path={paths.registerPath} component={Register}/>
-            <Route path={paths.contactPath} component={Contact}/>
-            <Route component={Error}/>
-          </Switch>
-        </BrowserRouter>
+        {view === paths.homePath && <Main />}
+        {view === paths.aboutPath && <About />}
+        {view === paths.apiPath && <Api />}
+        {view === paths.dashboardPath && <Dashboard />}
+        {view === paths.registerPath && <Register />}
+        {view === paths.contactPath && <Contact />}
       </main>
     );
   }
@@ -53,12 +50,13 @@ class App extends React.Component {
   }
 }
 
-function mapStateToProps({ session: { email, active, expiry, loading }}) {
-  return { email, active, expiry };
+function mapStateToProps({ session: { email, active, expiry, view }}) {
+  return { email, active, expiry, view };
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  endSession: (val) => dispatch(endSessionAction(val))
+  endSession: (val) => dispatch(endSessionAction(val)),
+  registerView: (name) => dispatch(registerViewAction(name)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

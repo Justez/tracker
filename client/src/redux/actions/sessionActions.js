@@ -1,5 +1,5 @@
 import * as types from './sessionActionTypes';
-import * as navigate from '../../utils/routes/navigators'
+import * as path from '../../utils/routes/paths'
 
 function receiveDetails(type, payload) {
   return { type, payload };
@@ -28,10 +28,10 @@ function startSessionAction() {
                     info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, info.warning))
                     info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, info.error))
                     if (info.status === 200)
-                        dispatch(navigate.toDashboard);
+                        dispatch(registerViewAction(path.dashboardPath));
                     if (info.status === 401) {
                         setTimeout(() => {
-                            dispatch(navigate.toRegister)
+                            dispatch(registerViewAction(path.registerPath))
                             info.warning && dispatch(receiveDetails(types.SET_SESSION_WARNING, ''))
                             info.error && dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, ''))
                         }, 1500);
@@ -55,11 +55,18 @@ function endSessionAction() {
         dispatch(receiveDetails(types.SET_SESSION_LOGIN_ERROR, ''))
         dispatch(receiveDetails(types.SET_SESSION_STATUS, false));
         dispatch(receiveDetails(types.SET_SESSION_LOADING, false));
-        dispatch(navigate.toHome);
+        dispatch(registerViewAction(path.homePath));
   }
 }
 
+function registerViewAction(name) {
+    return function action(dispatch) {
+        dispatch(receiveDetails(types.SET_SESSION_VIEW, name));
+    }
+}
+
 export {
-    startSessionAction,
     endSessionAction,
+    registerViewAction,
+    startSessionAction,
 };

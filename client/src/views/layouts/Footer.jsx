@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { registerViewAction } from '../../redux/actions/sessionActions';
 import styled from 'styled-components';
-import * as navigate from '../../utils/routes/navigators'
+import * as path from '../../utils/routes/paths';
 import * as pathName from '../../utils/routes/pathNames'
 
 const FooterDiv = styled.div`
@@ -27,14 +29,22 @@ const ListItem = styled.li`
     width: 25%;
 `;
 
-const Footer = () => 
-    <FooterDiv id="footer">
-        <List>
-            <ListItem tabIndex="0" onClick={navigate.toDashboard} onKeyPress={navigate.toDashboard}>{pathName.dashboard}</ListItem>
-            <ListItem tabIndex="0" onClick={navigate.toApi} onKeyPress={navigate.toApi}>{pathName.api}</ListItem>
-            <ListItem tabIndex="0" onClick={navigate.toAbout} onKeyPress={navigate.toAbout}>{pathName.about}</ListItem>
-            <ListItem tabIndex="0" onClick={navigate.toContact} onKeyPress={navigate.toContact}>{pathName.contact}</ListItem>
-        </List>
-    </FooterDiv>
+const Footer = (props) => {
+    const { registerView } = props;
+    return (
+        <FooterDiv id="footer">
+            <List>
+                <ListItem tabIndex="0" onClick={registerView(path.dashboardPath)} onKeyPress={registerView(path.dashboardPath)}>{pathName.dashboard}</ListItem>
+                <ListItem tabIndex="0" onClick={registerView(path.apiPath)} onKeyPress={registerView(path.apiPath)}>{pathName.api}</ListItem>
+                <ListItem tabIndex="0" onClick={registerView(path.aboutPath)} onKeyPress={registerView(path.aboutPath)}>{pathName.about}</ListItem>
+                <ListItem tabIndex="0" onClick={registerView(path.contactPath)} onKeyPress={registerView(path.contactPath)}>{pathName.contact}</ListItem>
+            </List>
+        </FooterDiv>
+    )
+}
 
-export default Footer;
+const mapDispatchToProps = (dispatch) => ({
+    registerView: (name) => dispatch(registerViewAction(name)),
+});
+
+export default connect(undefined, mapDispatchToProps)(Footer);

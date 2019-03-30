@@ -14,5 +14,6 @@ export default {
         email: '',
         expiry: '',
         warning: '',
+        view: 'main'
     },
 };

@@ -1,5 +1,7 @@
 import React from 'react';
-import { toApi } from '../utils/routes/navigators'
+import { connect } from 'react-redux';
+import { registerViewAction } from '../redux/actions/sessionActions';
+import * as path from '../utils/routes/paths';
 import { registerPath, sourcePath } from '../utils/routes/paths'
 
 class Main extends React.Component {
@@ -27,6 +29,8 @@ class Main extends React.Component {
   scrollToTop = () => document.getElementsByClassName("index")[0].scrollIntoView();
   
   render() {
+    const { registerView } = this.props;
+
     return (
       <div className="index">
         <div className="main container">
@@ -65,7 +69,7 @@ class Main extends React.Component {
                 <a href={sourcePath} target="_blank" rel="noopener noreferrer">open-source solution</a>
                 .
               </p>
-              <button onClick={toApi} onKeyPress={toApi}>Read our API documentation</button>
+              <button onClick={() => registerView(path.apiPath)} onKeyPress={() => registerView(path.apiPath)}>Read our API documentation</button>
             </div>
             <div className="photo">
                 <img alt="journey" src="https://image.freepik.com/free-photo/car-travelling-by-sunny-road_1088-51.jpg" />
@@ -85,4 +89,8 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+const mapDispatchToProps = (dispatch) => ({
+  registerView: (name) => dispatch(registerViewAction(name)),
+});
+
+export default connect(undefined, mapDispatchToProps)(Main);
