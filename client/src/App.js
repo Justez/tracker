@@ -26,7 +26,6 @@ class App extends React.Component {
 
   view = () => {
     const { view } = this.props;
-    console.log(view)
     return (
       <main>
         {view === paths.homePath && <Main />}

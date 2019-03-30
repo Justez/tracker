@@ -29,15 +29,17 @@ const ListItem = styled.li`
     width: 25%;
 `;
 
+
 const Footer = (props) => {
     const { registerView } = props;
+    
     return (
         <FooterDiv id="footer">
             <List>
-                <ListItem tabIndex="0" onClick={registerView(path.dashboardPath)} onKeyPress={registerView(path.dashboardPath)}>{pathName.dashboard}</ListItem>
-                <ListItem tabIndex="0" onClick={registerView(path.apiPath)} onKeyPress={registerView(path.apiPath)}>{pathName.api}</ListItem>
-                <ListItem tabIndex="0" onClick={registerView(path.aboutPath)} onKeyPress={registerView(path.aboutPath)}>{pathName.about}</ListItem>
-                <ListItem tabIndex="0" onClick={registerView(path.contactPath)} onKeyPress={registerView(path.contactPath)}>{pathName.contact}</ListItem>
+                <ListItem tabIndex="0" onClick={() => registerView(path.dashboardPath)} onKeyPress={() => registerView(path.dashboardPath)}>{pathName.dashboard}</ListItem>
+                <ListItem tabIndex="0" onClick={() => registerView(path.apiPath)} onKeyPress={() => registerView(path.apiPath)}>{pathName.api}</ListItem>
+                <ListItem tabIndex="0" onClick={() => registerView(path.aboutPath)} onKeyPress={() => registerView(path.aboutPath)}>{pathName.about}</ListItem>
+                <ListItem tabIndex="0" onClick={() => registerView(path.contactPath)} onKeyPress={() => registerView(path.contactPath)}>{pathName.contact}</ListItem>
             </List>
         </FooterDiv>
     )

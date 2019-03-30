@@ -17,12 +17,12 @@ class Main extends React.Component {
 
   addScrollListener = (boundary = 100, className = "nav", classChange = "dark") => {
     document.addEventListener('scroll', () => {
-      if (boundary > document.getElementById('description').getBoundingClientRect().top) {
+      if (document.getElementById('description') && boundary > document.getElementById('description').getBoundingClientRect().top) {
         document.getElementsByClassName(className)[0].classList.add(classChange)
       } else {
         document.getElementsByClassName(className)[0].classList.remove(classChange)
       }
-    })
+   })
   }
 
   scrollToDescription = () => document.getElementsByClassName("description")[0].scrollIntoView();
@@ -89,8 +89,10 @@ class Main extends React.Component {
   }
 }
 
+const mapStateToProps = ({ session: { view } }) => ({ view });  
+
 const mapDispatchToProps = (dispatch) => ({
   registerView: (name) => dispatch(registerViewAction(name)),
 });
 
-export default connect(undefined, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
