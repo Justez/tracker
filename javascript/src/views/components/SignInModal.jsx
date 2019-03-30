@@ -56,7 +56,7 @@ const InputField = ({ input, label, type, disabled, placeholder, meta: { error, 
 
 const SignInModal = (props) => {
     const { handleSubmit, pristine, invalid, submitting, loading, error, warning } = props;
-    
+
     return (
         <Form id="sign-in-modal-form" onSubmit={handleSubmit(props.startSession)}>
             <Header>Login to Tracker portal:</Header>
