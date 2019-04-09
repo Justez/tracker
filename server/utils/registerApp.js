@@ -2,7 +2,7 @@
 function authenticate(callbackFunction) {
     const fs = require('fs');
     const readline = require('readline');
-    const {google} = require('googleapis');
+    const { google } = require('googleapis');
 
     const SCOPES = ['https://www.googleapis.com/auth/drive'];
     // The file token.json stores the user's access and refresh tokens, and is
