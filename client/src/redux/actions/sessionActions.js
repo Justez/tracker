@@ -10,7 +10,7 @@ function startSessionAction() {
         dispatch(receiveDetails(types.SET_SESSION_LOADING, true));
         const request = fetch('https://trackerservice.netlify.com/.netlify/functions/server/api/sessions/new', {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(getState().form.signin.values),
