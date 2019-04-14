@@ -8,7 +8,7 @@ function receiveDetails(type, payload) {
 function startSessionAction() {
     return function action(dispatch, getState) {
         dispatch(receiveDetails(types.SET_SESSION_LOADING, true));
-        const request = fetch('/sessions/new', {
+        const request = fetch(process.env.REACT_APP_PROXY + '/sessions/new', {
             method: 'POST',
             mode: 'no-cors',
             credentials: 'include',

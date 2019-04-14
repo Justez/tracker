@@ -31,7 +31,6 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "https://trackerservice.netlify.com/.netlify/functions/server/api",
   "devDependencies": {
     "babel-jest": "23.6.0"
   }
