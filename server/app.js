@@ -11,6 +11,7 @@ var compression = require('compression');
 var helmet = require('helmet');
 var authenticate = require('./utils/registerApp');
 var { google } = require('googleapis');
+const serverless = require('serverless-http');
 
 var app = express();
 
@@ -53,6 +54,7 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+module.exports.handler = serverless(app);
 
 var debug = require('debug')('tracker:server');
 var http = require('http');
