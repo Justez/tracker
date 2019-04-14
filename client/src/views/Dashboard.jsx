@@ -91,9 +91,9 @@ class Dashboard extends React.Component {
         });
         const { email, userID } = this.props;
 
-        fetch('/devices/trackdays', {
+        fetch(process.env.REACT_APP_PROXY + '/devices/trackdays', {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ ...device, email, userID }),
@@ -111,9 +111,9 @@ class Dashboard extends React.Component {
         const { email, userID } = this.props;
         this.setState({ trackDaySelected: day, loading: true, error: '' })
 
-        fetch('/devices/tracks', {
+        fetch(process.env.REACT_APP_PROXY + '/devices/tracks', {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ id: day.id, email, userID }),

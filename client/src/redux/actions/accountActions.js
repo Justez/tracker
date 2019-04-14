@@ -9,9 +9,9 @@ function receiveDetails(type, payload) {
 function getUserDevicesAction() {
     return function action(dispatch, getState) {
         dispatch(receiveDetails(types.SET_USER_DATA_LOADING, true));
-        const request = fetch('/accounts/devices/all', {
+        const request = fetch(process.env.REACT_APP_PROXY + '/accounts/devices/all', {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ email: getState().session.email, id: getState().session.userID }),
@@ -41,9 +41,9 @@ function getUserDevicesAction() {
 function registerDeviceAction() {
     return function action(dispatch, getState) {
         dispatch(receiveDetails(types.SET_USER_DATA_LOADING, true));
-        const request = fetch('/accounts/devices/new', {
+        const request = fetch(process.env.REACT_APP_PROXY + '/accounts/devices/new', {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ device: getState().form.addTracker.values, email: getState().session.email, id: getState().session.id }),
@@ -72,9 +72,9 @@ function registerDeviceAction() {
 function deleteDeviceAction(device) {
     return function action(dispatch, getState) {
         dispatch(receiveDetails(types.SET_USER_DATA_LOADING, true));
-        const request = fetch('/accounts/devices/delete', {
+        const request = fetch(process.env.REACT_APP_PROXY + '/accounts/devices/delete', {
             method: 'DELETE',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify({ device, email: getState().session.email, id: getState().session.userID }),

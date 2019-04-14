@@ -67,9 +67,9 @@ class Register extends React.Component {
 
     submit = (vals) => {
         this.setState({ loading: true });
-        fetch('/accounts/create', {
+        fetch(process.env.REACT_APP_PROXY + '/accounts/create', {
             method: 'POST',
-            mode: 'cors',
+            mode: 'no-cors',
             credentials: 'include',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(vals),
