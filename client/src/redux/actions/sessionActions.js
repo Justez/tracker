@@ -13,8 +13,8 @@ function startSessionAction() {
             mode: process.env.NODE_ENV === "development" ? 'cors' : 'no-cors',
             credentials: 'include',
             headers: {
-                'Accept': 'application/json', 
-                'Content-Type': 'application/json', 
+                'Accept': 'application/json',
+                'Content-Type': 'text/plain', 
             },
             body: JSON.stringify(getState().form.signin.values),
         })
