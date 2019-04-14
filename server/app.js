@@ -9,9 +9,7 @@ var devicesRouter = require('./routes/devices');
 var appRouter = require('./routes/app');
 var compression = require('compression');
 var helmet = require('helmet');
-var authenticate = require('./utils/registerApp');
-var { google } = require('googleapis');
-const serverless = require('serverless-http');
+var serverless = require('serverless-http');
 
 var app = express();
 
@@ -133,11 +131,6 @@ function onError(error) {
  */
 
 function onListening() {
-  authenticate(function(auth) {
-    const drive = google.drive({version: 'v3', auth});
-    app.set('drive', drive); 
-  });
-
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
