@@ -10,9 +10,12 @@ function startSessionAction() {
         dispatch(receiveDetails(types.SET_SESSION_LOADING, true));
         const request = fetch(process.env.REACT_APP_PROXY + '/sessions/new', {
             method: 'POST',
-            mode: 'no-cors',
+            mode: process.env.NODE_ENV === "development" ? 'cors' : 'no-cors',
             credentials: 'include',
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            headers: {
+                'Accept': 'application/json', 
+                'Content-Type': 'application/json', 
+            },
             body: JSON.stringify(getState().form.signin.values),
         })
 
