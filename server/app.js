@@ -14,6 +14,8 @@ var { google } = require('googleapis');
 
 var app = express();
 
+require('dotenv').config();
+
 app.use(helmet());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jsx');
