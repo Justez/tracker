@@ -17,10 +17,12 @@ class Main extends React.Component {
 
   addScrollListener = (boundary = 100, className = "nav", classChange = "dark") => {
     document.addEventListener('scroll', () => {
-      if (document.getElementById('description') && boundary > document.getElementById('description').getBoundingClientRect().top) {
-        document.getElementsByClassName(className)[0].classList.add(classChange)
+      const description = document.getElementById('description')
+      const elements = document.getElementsByClassName(className)
+      if (description && boundary > description.getBoundingClientRect().top) {
+        elements.length && elements[0].classList.add(classChange)
       } else {
-        document.getElementsByClassName(className)[0].classList.remove(classChange)
+        elements.length && elements[0].classList.remove(classChange)
       }
    })
   }

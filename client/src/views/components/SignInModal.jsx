@@ -57,6 +57,11 @@ const InputField = ({ input, label, type, disabled, placeholder, meta: { error, 
 const SignInModal = (props) => {
     const { handleSubmit, pristine, invalid, submitting, loading, error, warning } = props;
 
+    const goToRegister = () => {
+        props.registerView(path.registerPath);
+        document.getElementById("sign-in-modal").style.display = "none";
+    };
+
     return (
         <Form id="sign-in-modal-form" onSubmit={handleSubmit(props.startSession)}>
             <Header>Login to Tracker portal:</Header>
@@ -92,7 +97,7 @@ const SignInModal = (props) => {
                     </Button>
                     <Button 
                         type="reset"
-                        onClick={() => this.props.registerView(path.registerPath)}
+                        onClick={goToRegister}
                     >
                         Register
                     </Button>

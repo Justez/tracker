@@ -61,6 +61,11 @@ class Register extends React.Component {
         status: undefined,
     };
 
+    componentDidMount() {
+        const elements = document.getElementsByClassName('nav')
+        elements.length && elements[0].classList.add('dark')
+    }
+
     openLogin = () => {
         document.getElementById("sign-in-modal").style.display = "block";
     }
